@@ -1,0 +1,13 @@
+package org.vaadin.teemusa;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class VaadinSpringBootAddonExampleApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(VaadinSpringBootAddonExampleApplication.class, args);
+    }
+}
+
