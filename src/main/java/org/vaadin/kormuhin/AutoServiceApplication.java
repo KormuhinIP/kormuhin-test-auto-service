@@ -1,13 +1,13 @@
-package org.vaadin.teemusa;
+package org.vaadin.kormuhin;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class VaadinSpringBootAddonExampleApplication {
+public class AutoServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(VaadinSpringBootAddonExampleApplication.class, args);
+        SpringApplication.run(AutoServiceApplication.class, args);
     }
 }
 

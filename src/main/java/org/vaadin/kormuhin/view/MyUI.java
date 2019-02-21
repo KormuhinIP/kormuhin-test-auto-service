@@ -1,4 +1,4 @@
-package org.vaadin.teemusa.view;
+package org.vaadin.kormuhin.view;
 
 import com.vaadin.addon.contextmenu.ContextMenu;
 import com.vaadin.annotations.Theme;
