@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/vaadin-spring-boot-addon-example.iml" filepath="$PROJECT_DIR$/vaadin-spring-boot-addon-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/kormuhin-test-auto-service.iml" filepath="$PROJECT_DIR$/kormuhin-test-auto-service.iml" />
     </modules>
   </component>
 </project>
