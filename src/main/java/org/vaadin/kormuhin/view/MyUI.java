@@ -1,35 +1,54 @@
 package org.vaadin.kormuhin.view;
 
 import com.vaadin.annotations.Theme;
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewDisplay;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.spring.annotation.EnableVaadinNavigation;
 import com.vaadin.spring.annotation.SpringUI;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.vaadin.spring.annotation.SpringViewDisplay;
+import com.vaadin.ui.*;
+import com.vaadin.ui.themes.ValoTheme;
 
-@SpringUI
+
 @Theme("valo")
-class MyUI extends UI {
+@SpringUI
+@EnableVaadinNavigation
+@SpringViewDisplay
+class MyUI extends UI implements ViewDisplay {
+
+    private static final String MECHANIC_VIEW = "Механики";
+    private static final String CLIENT_VIEW = "Клиенты";
+    private static final String ODER_VIEW = "Заказы";
+    private Panel springViewDisplay;
 
 
-    @Autowired
-    MechanicView mechanicView;
-
-
-
-
+    @Override
     protected void init(VaadinRequest request) {
-        VerticalLayout vcontent = new VerticalLayout();
-        HorizontalLayout hcontent = new HorizontalLayout();
+        final VerticalLayout root = new VerticalLayout();
+        root.setSizeFull();
+        setContent(root);
+        final CssLayout navigationBar = new CssLayout();
+        navigationBar.addStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
+        navigationBar.addComponent(createNavigationButton(MECHANIC_VIEW, MechanicView.MECHANIC_VIEW));
+        navigationBar.addComponent(createNavigationButton(CLIENT_VIEW, ClientView.CLIENT_VIEW));
+        navigationBar.addComponent(createNavigationButton(ODER_VIEW, OrderView.ODER_VIEW));
+        root.addComponent(navigationBar);
+        springViewDisplay = new Panel();
+        springViewDisplay.setSizeFull();
+        root.addComponent(springViewDisplay);
+        root.setExpandRatio(springViewDisplay, 1.0f);
+    }
 
+    private Button createNavigationButton(String caption, final String viewName) {
+        Button button = new Button(caption);
+        button.addStyleName(ValoTheme.BUTTON_SMALL);
+        button.addClickListener(event -> getUI().getNavigator().navigateTo(viewName));
+        return button;
+    }
 
-        mechanicView.MechanicTable(vcontent);
-        setContent(vcontent);
-
-        //  content.setMargin(true);
-        //  content.addComponent(new Label("Hello!"));
-
-
+    @Override
+    public void showView(View view) {
+        springViewDisplay.setContent((Component) view);
     }
 }

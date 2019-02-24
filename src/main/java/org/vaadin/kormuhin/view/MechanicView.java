@@ -1,21 +1,25 @@
 package org.vaadin.kormuhin.view;
 
 
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.vaadin.kormuhin.component.MechanicEditor;
 import org.vaadin.kormuhin.model.Mechanic;
 import org.vaadin.kormuhin.repository.MechanicRepository;
 import org.vaadin.kormuhin.service.MechanicService;
 
-@Component
+import javax.annotation.PostConstruct;
+
 @UIScope
-public class MechanicView {
+@SpringView(name = MechanicView.MECHANIC_VIEW)
+public class MechanicView extends VerticalLayout implements View {
 
     @Autowired
     MechanicEditor mechanicEditor;
@@ -23,8 +27,10 @@ public class MechanicView {
     MechanicService mechanicService;
     @Autowired
     MechanicRepository repository;
+    public static final String MECHANIC_VIEW = "mechanic";
 
-    public void MechanicTable(VerticalLayout vlayout) {
+    @PostConstruct
+    public void MechanicTable() {
 
 
         HorizontalLayout hlayout = new HorizontalLayout();
@@ -35,11 +41,11 @@ public class MechanicView {
         grid.getColumn("patronymic").setHeaderCaption("Очество");
         grid.getColumn("hourlyPay").setHeaderCaption("Почасовая оплата");
 
-        vlayout.addComponents(grid);
+        addComponents(grid);
         hlayout.setSpacing(true);
-        vlayout.addComponent(hlayout);
-        vlayout.setMargin(true);
-        vlayout.setSpacing(true);
+        addComponent(hlayout);
+        setMargin(true);
+        setSpacing(true);
 
         grid.setSelectionMode(Grid.SelectionMode.SINGLE);
         Grid.SingleSelectionModel selection =
@@ -84,4 +90,7 @@ public class MechanicView {
 
     }
 
+    @Override
+    public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
+    }
 }
