@@ -2,30 +2,27 @@ package org.vaadin.kormuhin.component;
 
 
 import com.vaadin.data.Validator;
-import com.vaadin.data.util.converter.Converter;
-import com.vaadin.data.validator.DoubleRangeValidator;
+import com.vaadin.data.validator.IntegerRangeValidator;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.vaadin.kormuhin.model.Mechanic;
-import org.vaadin.kormuhin.service.MechanicService;
-
-import java.util.Locale;
+import org.vaadin.kormuhin.model.Client;
+import org.vaadin.kormuhin.service.ClientService;
 
 
 @Component
 @UIScope
-public class MechanicEditor {
+public class ClientEditor {
 
     //  Mechanic mechanic=new Mechanic();
     @Autowired
-    MechanicService mechanicService;
+    ClientService clientService;
 
 
-    public void editForm(Grid grid, Mechanic editMechanic) {
+    public void editForm(Grid grid, Client editClient) {
 
         Window sub = new Window("Изменить/добавить");
         sub.setHeight("300px");
@@ -41,7 +38,7 @@ public class MechanicEditor {
 
         TextField lastNameText = new TextField("Фамилия");
         lastNameText.setIcon(FontAwesome.USER);
-        lastNameText.setInputPrompt(editMechanic.getLastName());
+        lastNameText.setInputPrompt(editClient.getLastName());
         lastNameText.setValidationVisible(true);
         StringLengthValidator sv = new StringLengthValidator("Введите Фамилию", 3, 15, true);
         lastNameText.addValidator(sv);
@@ -49,7 +46,7 @@ public class MechanicEditor {
 
         TextField firstNameText = new TextField("Имя");
         firstNameText.setIcon(FontAwesome.USER);
-        firstNameText.setInputPrompt(editMechanic.getFirstName());
+        firstNameText.setInputPrompt(editClient.getFirstName());
         firstNameText.setValidationVisible(true);
         StringLengthValidator slv = new StringLengthValidator("Введите Имя", 3, 10, true);
         firstNameText.addValidator(slv);
@@ -57,50 +54,20 @@ public class MechanicEditor {
 
         TextField patronymicText = new TextField("Очество");
         patronymicText.setIcon(FontAwesome.USER);
-        patronymicText.setInputPrompt(editMechanic.getPatronymic());
+        patronymicText.setInputPrompt(editClient.getPatronymic());
         patronymicText.setValidationVisible(true);
         StringLengthValidator slev = new StringLengthValidator("Введите Очество", 0, 15, true);
         patronymicText.addValidator(slev);
         layout.addComponent(patronymicText);
 
-        TextField hourlyPayDouble = new TextField("Почасовая оплата");
-        hourlyPayDouble.setConverter(new Converter<String, Double>() {
-            @Override
-            public Double convertToModel(String value,
-                                         Class<? extends Double> targetType, Locale locale)
-                    throws com.vaadin.data.util.converter.Converter.ConversionException {
-                if (value == null)
-                    return null;
-                if (value.isEmpty()) {
-                    return 0.0;
-                }
-                return Double.parseDouble(value);
-            }
 
-            @Override
-            public String convertToPresentation(Double value,
-                                                Class<? extends String> targetType, Locale locale)
-                    throws com.vaadin.data.util.converter.Converter.ConversionException {
-                if (value == null)
-                    return null;
-                return String.valueOf(value);
-            }
+        TextField phoneNumber = new TextField("Номер телефона");
 
-            @Override
-            public Class<Double> getModelType() {
-                return Double.class;
-            }
-
-            @Override
-            public Class<String> getPresentationType() {
-                return String.class;
-            }
-
-        });
-        hourlyPayDouble.setValidationVisible(true);
-        DoubleRangeValidator dv = new DoubleRangeValidator("Введите величину почасовой оплаты", 10.0, 1000.0);
-        hourlyPayDouble.addValidator(dv);
-        layout.addComponent(hourlyPayDouble);
+        //patronymicText.setInputPrompt(editClient.getPatronymic());
+        phoneNumber.setValidationVisible(true);
+        IntegerRangeValidator iv = new IntegerRangeValidator("Введите номер телефона", 0, 15);
+        phoneNumber.addValidator(iv);
+        layout.addComponent(phoneNumber);
 
 
         HorizontalLayout hlayout = new HorizontalLayout();
@@ -134,19 +101,19 @@ public class MechanicEditor {
                     failed = true;
                 }
                 try {
-                    hourlyPayDouble.validate();
+                    phoneNumber.validate();
                 } catch (Exception e) {
                     errLabel.setValue(errLabel.getValue() + " - " + e.getMessage());
-                    hourlyPayDouble.setValidationVisible(true);
+                    phoneNumber.setValidationVisible(true);
                     failed = true;
                 }
                 if (!failed) {
-                    editMechanic.setLastName(lastNameText.getValue());
-                    editMechanic.setFirstName(firstNameText.getValue());
-                    editMechanic.setHourlyPay(Double.parseDouble(hourlyPayDouble.getValue()));
-                    editMechanic.setPatronymic(patronymicText.getValue());
-                    mechanicService.saveMechanic(editMechanic);
-                    grid.setContainerDataSource(mechanicService.containerMechanic());
+                    editClient.setLastName(lastNameText.getValue());
+                    editClient.setFirstName(firstNameText.getValue());
+                    editClient.setNumberPhone(Integer.parseInt(phoneNumber.getValue()));
+                    editClient.setPatronymic(patronymicText.getValue());
+                    clientService.saveClient(editClient);
+                    grid.setContainerDataSource(clientService.containerClient());
 
 
                     Notification.show("Сведения добавлены", Notification.Type.TRAY_NOTIFICATION);

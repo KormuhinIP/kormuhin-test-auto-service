@@ -12,7 +12,6 @@ import com.vaadin.ui.VerticalLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.kormuhin.component.MechanicEditor;
 import org.vaadin.kormuhin.model.Mechanic;
-import org.vaadin.kormuhin.repository.MechanicRepository;
 import org.vaadin.kormuhin.service.MechanicService;
 
 import javax.annotation.PostConstruct;
@@ -25,13 +24,11 @@ public class MechanicView extends VerticalLayout implements View {
     MechanicEditor mechanicEditor;
     @Autowired
     MechanicService mechanicService;
-    @Autowired
-    MechanicRepository repository;
+
     public static final String MECHANIC_VIEW = "mechanic";
 
     @PostConstruct
-    public void MechanicTable() {
-
+    public void init() {
 
         HorizontalLayout hlayout = new HorizontalLayout();
         Grid grid = new Grid(mechanicService.containerMechanic());
@@ -61,7 +58,6 @@ public class MechanicView extends VerticalLayout implements View {
             }
         });
 
-        // Grid finalGrid=grid;
         Button addMechanic = new Button("Добавить", e -> {
             mechanicEditor.editForm(grid, new Mechanic());
             grid.getSelectionModel().reset();
@@ -86,8 +82,6 @@ public class MechanicView extends VerticalLayout implements View {
         hlayout.addComponents(editMechanic);
         hlayout.addComponents(delSelected);
         hlayout.addComponents(statisticOrder);
-
-
     }
 
     @Override
