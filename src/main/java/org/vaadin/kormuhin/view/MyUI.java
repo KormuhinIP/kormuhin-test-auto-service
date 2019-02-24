@@ -1,34 +1,35 @@
 package org.vaadin.kormuhin.view;
 
-import com.vaadin.addon.contextmenu.ContextMenu;
 import com.vaadin.annotations.Theme;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
-import com.vaadin.ui.*;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @SpringUI
 @Theme("valo")
 class MyUI extends UI {
 
 
+    @Autowired
+    MechanicView mechanicView;
 
-    @Override
+
+
+
     protected void init(VaadinRequest request) {
-        VerticalLayout content = new VerticalLayout();
-        content.setMargin(true);
-        content.addComponent(new Label("Hello!"));
-
-        content.setSizeFull();
+        VerticalLayout vcontent = new VerticalLayout();
+        HorizontalLayout hcontent = new HorizontalLayout();
 
 
-        ContextMenu menu = new ContextMenu(content, false);
-        menu.addItem("Menu entry", menuItem -> {
-            Notification.show("Menu entry selected!", Notification.Type.TRAY_NOTIFICATION);
-        });
-        content.addContextClickListener(event -> {
-            menu.open(event.getClientX(), event.getClientY());
-        });
+        mechanicView.MechanicTable(vcontent);
+        setContent(vcontent);
 
-        setContent(content);
+        //  content.setMargin(true);
+        //  content.addComponent(new Label("Hello!"));
+
+
     }
 }
