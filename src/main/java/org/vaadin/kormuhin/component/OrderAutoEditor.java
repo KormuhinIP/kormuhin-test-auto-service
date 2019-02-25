@@ -5,26 +5,27 @@ import com.vaadin.data.Validator;
 import com.vaadin.data.util.converter.Converter;
 import com.vaadin.data.validator.DoubleRangeValidator;
 import com.vaadin.data.validator.StringLengthValidator;
-import com.vaadin.server.FontAwesome;
-import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.vaadin.kormuhin.model.Mechanic;
+import org.vaadin.kormuhin.model.OrderAuto;
 import org.vaadin.kormuhin.service.MechanicService;
+import org.vaadin.kormuhin.service.OrderAutoService;
 
 import java.util.Locale;
 
-@UIScope
+
 @Component
-public class MechanicEditor {
+public class OrderAutoEditor {
 
     //  Mechanic mechanic=new Mechanic();
+    @Autowired
+    OrderAutoService orderAutoService;
     @Autowired
     MechanicService mechanicService;
 
 
-    public void editForm(Grid grid, Mechanic editMechanic) {
+    public void editForm(Grid grid, OrderAuto editOrder) {
 
         Window sub = new Window("Изменить/добавить");
         sub.setHeight("300px");
@@ -38,32 +39,30 @@ public class MechanicEditor {
 
         Label errLabel = new Label();
 
-        TextField lastNameText = new TextField("Фамилия");
-        lastNameText.setIcon(FontAwesome.USER);
-        lastNameText.setInputPrompt(editMechanic.getLastName());
-        lastNameText.setValidationVisible(true);
-        StringLengthValidator sv = new StringLengthValidator("Введите Фамилию", 3, 15, true);
-        lastNameText.addValidator(sv);
-        layout.addComponent(lastNameText);
+        TextField descriptionText = new TextField("Описание");
+        descriptionText.setInputPrompt(editOrder.getDescription());
+        descriptionText.setValidationVisible(true);
+        StringLengthValidator sv = new StringLengthValidator("Опишите проблему", 5, 150, true);
+        descriptionText.addValidator(sv);
+        layout.addComponent(descriptionText);
 
-        TextField firstNameText = new TextField("Имя");
-        firstNameText.setIcon(FontAwesome.USER);
-        firstNameText.setInputPrompt(editMechanic.getFirstName());
-        firstNameText.setValidationVisible(true);
-        StringLengthValidator slv = new StringLengthValidator("Введите Имя", 3, 10, true);
-        firstNameText.addValidator(slv);
-        layout.addComponent(firstNameText);
+        DateField createOrder = new DateField("Дата создания заявки");
+        //  createOrder.setResolution(Resolution.MINUTE);
+        layout.addComponent(createOrder);
 
-        TextField patronymicText = new TextField("Очество");
-        patronymicText.setIcon(FontAwesome.USER);
-        patronymicText.setInputPrompt(editMechanic.getPatronymic());
-        patronymicText.setValidationVisible(true);
-        StringLengthValidator slev = new StringLengthValidator("Введите Очество", 0, 15, true);
-        patronymicText.addValidator(slev);
-        layout.addComponent(patronymicText);
+        DateField completionOrder = new DateField("Дата окончания работ");
+        //  createOrder.setResolution(Resolution.MINUTE);
+        layout.addComponent(completionOrder);
 
-        TextField hourlyPayDouble = new TextField("Почасовая оплата");
-        hourlyPayDouble.setConverter(new Converter<String, Double>() {
+        final ComboBox mechanicSelect =
+                new ComboBox("Выберите механика", mechanicService.containerMechanic());
+        mechanicSelect.setItemCaptionMode(AbstractSelect.ItemCaptionMode.PROPERTY);
+        mechanicSelect.setItemCaptionPropertyId("lastName");
+        layout.addComponent(mechanicSelect);
+
+
+        TextField costDouble = new TextField("Стоимость");
+        costDouble.setConverter(new Converter<String, Double>() {
             @Override
             public Double convertToModel(String value,
                                          Class<? extends Double> targetType, Locale locale)
@@ -96,10 +95,10 @@ public class MechanicEditor {
             }
 
         });
-        hourlyPayDouble.setValidationVisible(true);
-        DoubleRangeValidator dv = new DoubleRangeValidator("Введите величину почасовой оплаты", 10.0, 1000.0);
-        hourlyPayDouble.addValidator(dv);
-        layout.addComponent(hourlyPayDouble);
+        costDouble.setValidationVisible(true);
+        DoubleRangeValidator dv = new DoubleRangeValidator("Введите стоимость", 100.0, 100000.0);
+        costDouble.addValidator(dv);
+        layout.addComponent(costDouble);
 
 
         HorizontalLayout hlayout = new HorizontalLayout();
@@ -111,41 +110,29 @@ public class MechanicEditor {
                 Boolean failed = false;
                 errLabel.setValue("");
                 try {
-                    lastNameText.validate();
+                    descriptionText.validate();
                 } catch (Validator.InvalidValueException e) {
                     errLabel.setValue(" - " + e.getMessage());
-                    lastNameText.setValidationVisible(true);
+                    descriptionText.setValidationVisible(true);
                     failed = true;
                 }
 
                 try {
-                    firstNameText.validate();
+                    costDouble.validate();
                 } catch (Exception e) {
                     errLabel.setValue(errLabel.getValue() + " - " + e.getMessage());
-                    firstNameText.setValidationVisible(true);
+                    costDouble.setValidationVisible(true);
                     failed = true;
                 }
-                try {
-                    patronymicText.validate();
-                } catch (Exception e) {
-                    errLabel.setValue(errLabel.getValue() + " - " + e.getMessage());
-                    patronymicText.setValidationVisible(true);
-                    failed = true;
-                }
-                try {
-                    hourlyPayDouble.validate();
-                } catch (Exception e) {
-                    errLabel.setValue(errLabel.getValue() + " - " + e.getMessage());
-                    hourlyPayDouble.setValidationVisible(true);
-                    failed = true;
-                }
+
+
                 if (!failed) {
-                    editMechanic.setLastName(lastNameText.getValue());
-                    editMechanic.setFirstName(firstNameText.getValue());
-                    editMechanic.setHourlyPay(Double.parseDouble(hourlyPayDouble.getValue()));
-                    editMechanic.setPatronymic(patronymicText.getValue());
-                    mechanicService.saveMechanic(editMechanic);
-                    grid.setContainerDataSource(mechanicService.containerMechanic());
+                 /*   editOrder.setLastName(lastNameText.getValue());
+                    editClient.setFirstName(firstNameText.getValue());
+                    editClient.setNumberPhone(Integer.parseInt(phoneNumber.getValue()));
+                    editClient.setPatronymic(patronymicText.getValue());*/
+                    orderAutoService.saveOrder(editOrder);
+                    grid.setContainerDataSource(orderAutoService.containerOrder());
 
 
                     Notification.show("Сведения добавлены", Notification.Type.TRAY_NOTIFICATION);

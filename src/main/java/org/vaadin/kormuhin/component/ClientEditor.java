@@ -5,7 +5,6 @@ import com.vaadin.data.Validator;
 import com.vaadin.data.validator.IntegerRangeValidator;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,7 +13,6 @@ import org.vaadin.kormuhin.service.ClientService;
 
 
 @Component
-@UIScope
 public class ClientEditor {
 
     //  Mechanic mechanic=new Mechanic();
@@ -63,9 +61,9 @@ public class ClientEditor {
 
         TextField phoneNumber = new TextField("Номер телефона");
 
-        //patronymicText.setInputPrompt(editClient.getPatronymic());
+        patronymicText.setInputPrompt(editClient.getPatronymic());
         phoneNumber.setValidationVisible(true);
-        IntegerRangeValidator iv = new IntegerRangeValidator("Введите номер телефона", 0, 15);
+        IntegerRangeValidator iv = new IntegerRangeValidator("Введите номер телефона", 0, 1000000);
         phoneNumber.addValidator(iv);
         layout.addComponent(phoneNumber);
 
@@ -105,7 +103,7 @@ public class ClientEditor {
                 } catch (Exception e) {
                     errLabel.setValue(errLabel.getValue() + " - " + e.getMessage());
                     phoneNumber.setValidationVisible(true);
-                    failed = true;
+                    // failed = true;
                 }
                 if (!failed) {
                     editClient.setLastName(lastNameText.getValue());

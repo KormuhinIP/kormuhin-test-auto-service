@@ -21,6 +21,7 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/target/generated-sources/wscdn" isTestSource="false" generated="true" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
@@ -83,20 +84,18 @@
     <orderEntry type="library" name="Maven: com.vaadin:vaadin-spring-boot-starter:1.1.1" level="project" />
     <orderEntry type="library" name="Maven: com.vaadin:vaadin-spring-boot:1.1.1" level="project" />
     <orderEntry type="library" name="Maven: com.vaadin:vaadin-spring:1.1.1" level="project" />
-    <orderEntry type="library" name="Maven: com.vaadin:vaadin-themes:7.7.0.alpha3" level="project" />
-    <orderEntry type="library" name="Maven: com.vaadin:vaadin-client-compiled:7.7.0.alpha3" level="project" />
+    <orderEntry type="library" name="Maven: com.vaadin:vaadin-themes:7.7.7" level="project" />
+    <orderEntry type="library" name="Maven: com.vaadin:vaadin-client-compiled:7.7.7" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.hsqldb:hsqldb:2.4.0" level="project" />
     <orderEntry type="library" name="Maven: com.zaxxer:HikariCP:3.1.0" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.21" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.projectlombok:lombok:1.16.18" level="project" />
     <orderEntry type="library" name="Maven: com.vaadin.addon:vaadin-context-menu:0.7.1" level="project" />
-    <orderEntry type="library" name="Maven: com.vaadin:vaadin-server:7.7.0.alpha3" level="project" />
+    <orderEntry type="library" name="Maven: com.vaadin:vaadin-server:7.7.7" level="project" />
     <orderEntry type="library" name="Maven: com.vaadin:vaadin-sass-compiler:0.9.13" level="project" />
     <orderEntry type="library" name="Maven: org.w3c.css:sac:1.3" level="project" />
     <orderEntry type="library" name="Maven: com.vaadin.external.flute:flute:1.3.0.gg2" level="project" />
-    <orderEntry type="library" name="Maven: com.yahoo.platform.yui:yuicompressor:2.4.8" level="project" />
-    <orderEntry type="library" name="Maven: rhino:js:1.7R2" level="project" />
-    <orderEntry type="library" name="Maven: com.vaadin:vaadin-shared:7.7.0.alpha3" level="project" />
+    <orderEntry type="library" name="Maven: com.vaadin:vaadin-shared:7.7.7" level="project" />
     <orderEntry type="library" name="Maven: org.jsoup:jsoup:1.8.3" level="project" />
   </component>
 </module>

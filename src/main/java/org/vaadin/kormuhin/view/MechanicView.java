@@ -4,7 +4,6 @@ package org.vaadin.kormuhin.view;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
-import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
@@ -16,7 +15,7 @@ import org.vaadin.kormuhin.service.MechanicService;
 
 import javax.annotation.PostConstruct;
 
-@UIScope
+
 @SpringView(name = MechanicView.MECHANIC_VIEW)
 public class MechanicView extends VerticalLayout implements View {
 

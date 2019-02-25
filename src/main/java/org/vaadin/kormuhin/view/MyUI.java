@@ -19,7 +19,7 @@ class MyUI extends UI implements ViewDisplay {
 
     private static final String MECHANIC_VIEW = "Механики";
     private static final String CLIENT_VIEW = "Клиенты";
-    private static final String ODER_VIEW = "Заказы";
+    private static final String ORDER_VIEW = "Заказы";
     private Panel springViewDisplay;
 
 
@@ -32,7 +32,7 @@ class MyUI extends UI implements ViewDisplay {
         navigationBar.addStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
         navigationBar.addComponent(createNavigationButton(MECHANIC_VIEW, MechanicView.MECHANIC_VIEW));
         navigationBar.addComponent(createNavigationButton(CLIENT_VIEW, ClientView.CLIENT_VIEW));
-        navigationBar.addComponent(createNavigationButton(ODER_VIEW, OrderView.ODER_VIEW));
+        navigationBar.addComponent(createNavigationButton(ORDER_VIEW, OrderView.ORDER_VIEW));
         root.addComponent(navigationBar);
         springViewDisplay = new Panel();
         springViewDisplay.setSizeFull();
