@@ -31,8 +31,8 @@ public class OrderView extends VerticalLayout implements View {
         Grid grid = new Grid(orderAutoService.containerOrder());
         grid.setColumns("description", "client", "mechanic", "dateCreate", "dateCompletion", "cost", "status");
         grid.getColumn("description").setHeaderCaption("Описание");
-        grid.getColumn("client").setHeaderCaption("клиент");
-        grid.getColumn("mechanic").setHeaderCaption("механик");
+        grid.getColumn("client").setHeaderCaption("Клиент");
+        grid.getColumn("mechanic").setHeaderCaption("Механик");
         grid.getColumn("dateCreate").setHeaderCaption("Дата создания");
         grid.getColumn("dateCompletion").setHeaderCaption("Дата окончания работ");
         grid.getColumn("cost").setHeaderCaption("Стоимость");

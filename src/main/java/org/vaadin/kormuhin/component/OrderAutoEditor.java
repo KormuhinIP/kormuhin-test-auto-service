@@ -9,6 +9,7 @@ import com.vaadin.ui.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.vaadin.kormuhin.model.OrderAuto;
+import org.vaadin.kormuhin.service.ClientService;
 import org.vaadin.kormuhin.service.MechanicService;
 import org.vaadin.kormuhin.service.OrderAutoService;
 
@@ -23,15 +24,18 @@ public class OrderAutoEditor {
     OrderAutoService orderAutoService;
     @Autowired
     MechanicService mechanicService;
+    @Autowired
+    ClientService clientService;
+
 
 
     public void editForm(Grid grid, OrderAuto editOrder) {
 
         Window sub = new Window("Изменить/добавить");
-        sub.setHeight("300px");
-        sub.setWidth("400px");
-        sub.setPositionX(150);
-        sub.setPositionY(400);
+        sub.setHeight("600px");
+        sub.setWidth("600px");
+        sub.setPositionX(600);
+        sub.setPositionY(200);
 
 
         final FormLayout layout = new FormLayout();
@@ -40,25 +44,45 @@ public class OrderAutoEditor {
         Label errLabel = new Label();
 
         TextField descriptionText = new TextField("Описание");
+        descriptionText.setWidth("300px");
+        descriptionText.setHeight("100px");
         descriptionText.setInputPrompt(editOrder.getDescription());
         descriptionText.setValidationVisible(true);
         StringLengthValidator sv = new StringLengthValidator("Опишите проблему", 5, 150, true);
         descriptionText.addValidator(sv);
         layout.addComponent(descriptionText);
 
-        DateField createOrder = new DateField("Дата создания заявки");
-        //  createOrder.setResolution(Resolution.MINUTE);
-        layout.addComponent(createOrder);
 
-        DateField completionOrder = new DateField("Дата окончания работ");
-        //  createOrder.setResolution(Resolution.MINUTE);
-        layout.addComponent(completionOrder);
+        final ComboBox clientSelect =
+                new ComboBox("Выберите клиента", clientService.containerClient());
+        clientSelect.setItemCaptionMode(AbstractSelect.ItemCaptionMode.PROPERTY);
+        clientSelect.setItemCaptionPropertyId("lastName");
+        clientSelect.setInputPrompt(editOrder.getClient());
+        clientSelect.setNullSelectionAllowed(false);
+        layout.addComponent(clientSelect);
+
 
         final ComboBox mechanicSelect =
                 new ComboBox("Выберите механика", mechanicService.containerMechanic());
         mechanicSelect.setItemCaptionMode(AbstractSelect.ItemCaptionMode.PROPERTY);
         mechanicSelect.setItemCaptionPropertyId("lastName");
+        mechanicSelect.setInputPrompt(editOrder.getMechanic());
+        mechanicSelect.setNullSelectionAllowed(false);
+
         layout.addComponent(mechanicSelect);
+
+
+
+
+
+        DateField createOrder = new DateField("Дата создания заявки");
+        //  createOrder.setResolution(Resolution.MINUTE);
+        layout.addComponent(createOrder);
+
+
+        DateField completionOrder = new DateField("Дата окончания работ");
+        //  createOrder.setResolution(Resolution.MINUTE);
+        layout.addComponent(completionOrder);
 
 
         TextField costDouble = new TextField("Стоимость");
@@ -99,6 +123,24 @@ public class OrderAutoEditor {
         DoubleRangeValidator dv = new DoubleRangeValidator("Введите стоимость", 100.0, 100000.0);
         costDouble.addValidator(dv);
         layout.addComponent(costDouble);
+
+
+        final ComboBox statusSelect =
+                new ComboBox("Выберите статус работы");
+        statusSelect.addItem("Запланирован");
+        statusSelect.addItem("Выполнен");
+        statusSelect.addItem("Принят клиентом");
+        // User may not select a "null" item
+        statusSelect.setNullSelectionAllowed(false);
+
+
+// Handle selection change
+        statusSelect.addValueChangeListener(event -> // Java 8
+                layout.addComponent(new Label("Selected " +
+                        event.getProperty().getValue())));
+        layout.addComponent(statusSelect);
+
+
 
 
         HorizontalLayout hlayout = new HorizontalLayout();

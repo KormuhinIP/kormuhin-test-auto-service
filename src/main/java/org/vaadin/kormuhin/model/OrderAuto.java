@@ -22,7 +22,7 @@ public class OrderAuto {
     private Timestamp dateCreate;
     private Timestamp dateCompletion;
     private Double cost;
-    private Enum status;
+    private String status;
     private String client;
     private String mechanic;
 
