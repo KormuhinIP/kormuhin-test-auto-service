@@ -17,6 +17,7 @@ import com.vaadin.ui.themes.ValoTheme;
 @SpringViewDisplay
 class MyUI extends UI implements ViewDisplay {
 
+
     private static final String MECHANIC_VIEW = "Механики";
     private static final String CLIENT_VIEW = "Клиенты";
     private static final String ORDER_VIEW = "Заказы";
@@ -25,6 +26,7 @@ class MyUI extends UI implements ViewDisplay {
 
     @Override
     protected void init(VaadinRequest request) {
+
         final VerticalLayout root = new VerticalLayout();
         root.setSizeFull();
         setContent(root);

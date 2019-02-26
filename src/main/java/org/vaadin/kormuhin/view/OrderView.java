@@ -7,6 +7,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.renderers.DateRenderer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.kormuhin.component.OrderAutoEditor;
 import org.vaadin.kormuhin.model.OrderAuto;
@@ -24,8 +25,10 @@ public class OrderView extends VerticalLayout implements View {
     @Autowired
     OrderAutoService orderAutoService;
 
+
     @PostConstruct
     public void initOrder() {
+
 
         HorizontalLayout hlayout = new HorizontalLayout();
         Grid grid = new Grid(orderAutoService.containerOrder());
@@ -33,8 +36,9 @@ public class OrderView extends VerticalLayout implements View {
         grid.getColumn("description").setHeaderCaption("Описание");
         grid.getColumn("client").setHeaderCaption("Клиент");
         grid.getColumn("mechanic").setHeaderCaption("Механик");
-        grid.getColumn("dateCreate").setHeaderCaption("Дата создания");
-        grid.getColumn("dateCompletion").setHeaderCaption("Дата окончания работ");
+
+        grid.getColumn("dateCreate").setHeaderCaption("Дата создания").setRenderer(new DateRenderer("%1$td-%1$tm-%1$tY"));
+        grid.getColumn("dateCompletion").setHeaderCaption("Дата окончания работ").setRenderer(new DateRenderer("%1$td-%1$tm-%1$tY"));
         grid.getColumn("cost").setHeaderCaption("Стоимость");
         grid.getColumn("status").setHeaderCaption("Статус");
 

@@ -9,6 +9,7 @@ import com.vaadin.ui.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.vaadin.kormuhin.model.OrderAuto;
+import org.vaadin.kormuhin.model.StatusEnum;
 import org.vaadin.kormuhin.service.ClientService;
 import org.vaadin.kormuhin.service.MechanicService;
 import org.vaadin.kormuhin.service.OrderAutoService;
@@ -19,14 +20,13 @@ import java.util.Locale;
 @Component
 public class OrderAutoEditor {
 
-    //  Mechanic mechanic=new Mechanic();
+
     @Autowired
     OrderAutoService orderAutoService;
     @Autowired
     MechanicService mechanicService;
     @Autowired
     ClientService clientService;
-
 
 
     public void editForm(Grid grid, OrderAuto editOrder) {
@@ -81,7 +81,7 @@ public class OrderAutoEditor {
 
 
         DateField completionOrder = new DateField("Дата окончания работ");
-        //  createOrder.setResolution(Resolution.MINUTE);
+        //   completionOrder.setResolution(Resolution.MINUTE);
         layout.addComponent(completionOrder);
 
 
@@ -127,17 +127,14 @@ public class OrderAutoEditor {
 
         final ComboBox statusSelect =
                 new ComboBox("Выберите статус работы");
-        statusSelect.addItem("Запланирован");
-        statusSelect.addItem("Выполнен");
-        statusSelect.addItem("Принят клиентом");
+
+        statusSelect.addItems(StatusEnum.values());
         // User may not select a "null" item
         statusSelect.setNullSelectionAllowed(false);
-
+        statusSelect.setValue(StatusEnum.VENUS);
 
 // Handle selection change
-        statusSelect.addValueChangeListener(event -> // Java 8
-                layout.addComponent(new Label("Selected " +
-                        event.getProperty().getValue())));
+
         layout.addComponent(statusSelect);
 
 
@@ -156,7 +153,7 @@ public class OrderAutoEditor {
                 } catch (Validator.InvalidValueException e) {
                     errLabel.setValue(" - " + e.getMessage());
                     descriptionText.setValidationVisible(true);
-                    failed = true;
+                    //   failed = true;
                 }
 
                 try {
@@ -164,15 +161,20 @@ public class OrderAutoEditor {
                 } catch (Exception e) {
                     errLabel.setValue(errLabel.getValue() + " - " + e.getMessage());
                     costDouble.setValidationVisible(true);
-                    failed = true;
+                    // failed = true;
                 }
 
 
                 if (!failed) {
-                 /*   editOrder.setLastName(lastNameText.getValue());
-                    editClient.setFirstName(firstNameText.getValue());
-                    editClient.setNumberPhone(Integer.parseInt(phoneNumber.getValue()));
-                    editClient.setPatronymic(patronymicText.getValue());*/
+                    editOrder.setDescription(descriptionText.getValue());
+
+
+                    editOrder.setDateCreate(createOrder.getValue());
+                    editOrder.setDateCompletion(completionOrder.getValue());
+                    editOrder.setCost(Double.parseDouble(costDouble.getValue()));
+                    // editOrder.getStatus(statusSelect.getI)
+                    //  editOrder.setStatus(String.valueOf(statusSelect.getValue()));
+
                     orderAutoService.saveOrder(editOrder);
                     grid.setContainerDataSource(orderAutoService.containerOrder());
 
