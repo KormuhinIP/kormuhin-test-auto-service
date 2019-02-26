@@ -13,7 +13,10 @@ import javax.persistence.Entity;
 @EqualsAndHashCode(callSuper = true)
 public class Mechanic extends BasePeople {
     private double hourlyPay;
-    private Integer numberOrders;
+    private Integer orderAutos;
+
+    //   @OneToMany(mappedBy="mechanic", orphanRemoval=true, cascade=CascadeType.ALL)
+    //   private List<OrderAuto> orderAutos;
 
 }
 

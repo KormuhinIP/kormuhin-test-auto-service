@@ -13,7 +13,9 @@ public class MechanicService {
 
     public BeanItemContainer<Mechanic> containerMechanic() {
         BeanItemContainer<Mechanic> container = new BeanItemContainer<>(Mechanic.class, mechanicRepository.findAll());
+
         return container;
+
     }
 
     public void deleteMechanic(Mechanic mechanic) {

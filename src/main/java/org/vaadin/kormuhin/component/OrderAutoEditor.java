@@ -5,11 +5,12 @@ import com.vaadin.data.Validator;
 import com.vaadin.data.util.converter.Converter;
 import com.vaadin.data.validator.DoubleRangeValidator;
 import com.vaadin.data.validator.StringLengthValidator;
+import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.vaadin.kormuhin.model.Mechanic;
 import org.vaadin.kormuhin.model.OrderAuto;
-import org.vaadin.kormuhin.model.StatusEnum;
 import org.vaadin.kormuhin.service.ClientService;
 import org.vaadin.kormuhin.service.MechanicService;
 import org.vaadin.kormuhin.service.OrderAutoService;
@@ -44,8 +45,6 @@ public class OrderAutoEditor {
         Label errLabel = new Label();
 
         TextField descriptionText = new TextField("Описание");
-        descriptionText.setWidth("300px");
-        descriptionText.setHeight("100px");
         descriptionText.setInputPrompt(editOrder.getDescription());
         descriptionText.setValidationVisible(true);
         StringLengthValidator sv = new StringLengthValidator("Опишите проблему", 5, 150, true);
@@ -66,7 +65,7 @@ public class OrderAutoEditor {
                 new ComboBox("Выберите механика", mechanicService.containerMechanic());
         mechanicSelect.setItemCaptionMode(AbstractSelect.ItemCaptionMode.PROPERTY);
         mechanicSelect.setItemCaptionPropertyId("lastName");
-        mechanicSelect.setInputPrompt(editOrder.getMechanic());
+        //mechanicSelect.setInputPrompt(editOrder.getMechanic());
         mechanicSelect.setNullSelectionAllowed(false);
 
         layout.addComponent(mechanicSelect);
@@ -76,12 +75,12 @@ public class OrderAutoEditor {
 
 
         DateField createOrder = new DateField("Дата создания заявки");
-        //  createOrder.setResolution(Resolution.MINUTE);
+        createOrder.setResolution(Resolution.MINUTE);
         layout.addComponent(createOrder);
 
 
         DateField completionOrder = new DateField("Дата окончания работ");
-        //   completionOrder.setResolution(Resolution.MINUTE);
+        completionOrder.setResolution(Resolution.MINUTE);
         layout.addComponent(completionOrder);
 
 
@@ -119,19 +118,24 @@ public class OrderAutoEditor {
             }
 
         });
-        costDouble.setValidationVisible(true);
+
+        if (editOrder.getCost() != null) {
+            costDouble.setValidationVisible(true);
         DoubleRangeValidator dv = new DoubleRangeValidator("Введите стоимость", 100.0, 100000.0);
         costDouble.addValidator(dv);
-        layout.addComponent(costDouble);
+            layout.addComponent(costDouble);
+        }
 
 
         final ComboBox statusSelect =
                 new ComboBox("Выберите статус работы");
 
-        statusSelect.addItems(StatusEnum.values());
-        // User may not select a "null" item
+
+        String[] status = {"Запланирован", "Выполнен", "Принят клиентом"};
+        statusSelect.addItems(status);
         statusSelect.setNullSelectionAllowed(false);
-        statusSelect.setValue(StatusEnum.VENUS);
+        statusSelect.setValue("Запланирован");
+
 
 // Handle selection change
 
@@ -171,9 +175,24 @@ public class OrderAutoEditor {
 
                     editOrder.setDateCreate(createOrder.getValue());
                     editOrder.setDateCompletion(completionOrder.getValue());
-                    editOrder.setCost(Double.parseDouble(costDouble.getValue()));
-                    // editOrder.getStatus(statusSelect.getI)
-                    //  editOrder.setStatus(String.valueOf(statusSelect.getValue()));
+
+
+                    long periodOfHours = (completionOrder.getValue().getTime() - createOrder.getValue().getTime()) / (60 * 60 * 1000);
+
+
+                    Mechanic mechanic = (Mechanic) mechanicSelect.getValue();
+                    System.out.println((Double) mechanic.getHourlyPay());
+
+                    editOrder.setCost(mechanic.getHourlyPay() * periodOfHours);
+
+
+                    int count = mechanic.getOrderAutos() + 1;
+                    mechanic.setOrderAutos(count);
+                    mechanicService.saveMechanic(mechanic);
+                    editOrder.setMechanic(mechanic);
+                    editOrder.setMechanicName(mechanic.getLastName());
+                    editOrder.setStatusOrder(String.valueOf(statusSelect.getValue()));
+
 
                     orderAutoService.saveOrder(editOrder);
                     grid.setContainerDataSource(orderAutoService.containerOrder());

@@ -144,6 +144,7 @@ public class MechanicEditor {
                     editMechanic.setFirstName(firstNameText.getValue());
                     editMechanic.setHourlyPay(Double.parseDouble(hourlyPayDouble.getValue()));
                     editMechanic.setPatronymic(patronymicText.getValue());
+                    editMechanic.setOrderAutos(0);
                     mechanicService.saveMechanic(editMechanic);
                     grid.setContainerDataSource(mechanicService.containerMechanic());
 

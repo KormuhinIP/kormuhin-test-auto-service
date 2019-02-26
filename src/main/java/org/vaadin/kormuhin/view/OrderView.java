@@ -32,18 +32,22 @@ public class OrderView extends VerticalLayout implements View {
 
         HorizontalLayout hlayout = new HorizontalLayout();
         Grid grid = new Grid(orderAutoService.containerOrder());
-        grid.setColumns("description", "client", "mechanic", "dateCreate", "dateCompletion", "cost", "status");
+        grid.setColumns("description", "client", "mechanicName", "dateCreate", "dateCompletion", "cost", "statusOrder");
+
         grid.getColumn("description").setHeaderCaption("Описание");
         grid.getColumn("client").setHeaderCaption("Клиент");
-        grid.getColumn("mechanic").setHeaderCaption("Механик");
 
-        grid.getColumn("dateCreate").setHeaderCaption("Дата создания").setRenderer(new DateRenderer("%1$td-%1$tm-%1$tY"));
-        grid.getColumn("dateCompletion").setHeaderCaption("Дата окончания работ").setRenderer(new DateRenderer("%1$td-%1$tm-%1$tY"));
+        //   grid.getColumn("mechanicName")/*.setHeaderCaption("Механик")*/;
+        grid.getColumn("mechanicName").setHeaderCaption("Механик");
+
+
+        grid.getColumn("dateCreate").setHeaderCaption("Дата создания").setRenderer(new DateRenderer("%1$td-%1$tm-%1$tY/ %1$tH.%1$tM"));
+        grid.getColumn("dateCompletion").setHeaderCaption("Дата окончания работ").setRenderer(new DateRenderer("%1$td-%1$tm-%1$tY/ %1$tH.%1$tM"));
         grid.getColumn("cost").setHeaderCaption("Стоимость");
-        grid.getColumn("status").setHeaderCaption("Статус");
+        grid.getColumn("statusOrder").setHeaderCaption("Статус");
 
         grid.setHeight("500px");
-        grid.setWidth("1000px");
+        grid.setWidth("1300px");
         addComponents(grid);
         hlayout.setSpacing(true);
         addComponent(hlayout);
@@ -82,6 +86,7 @@ public class OrderView extends VerticalLayout implements View {
         hlayout.addComponents(delSelected);
 
     }
+
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {

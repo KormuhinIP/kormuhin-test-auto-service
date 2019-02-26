@@ -14,6 +14,7 @@ public class OrderAutoService {
 
     public BeanItemContainer<OrderAuto> containerOrder() {
         BeanItemContainer<OrderAuto> container = new BeanItemContainer<>(OrderAuto.class, orderAutoRepository.findAll());
+
         return container;
     }
 

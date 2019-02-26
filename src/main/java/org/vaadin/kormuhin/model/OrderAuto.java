@@ -19,12 +19,13 @@ public class OrderAuto {
     private Date dateCreate;
     private Date dateCompletion;
     private Double cost;
-
+    private String mechanicName;
     private String client;
-    private String mechanic;
-    //  private String status;
-    @Enumerated(EnumType.STRING)
-    private StatusEnum status;
+    private String statusOrder;
+
+    @ManyToOne(/*fetch=FetchType.LAZY*/ cascade = CascadeType.REFRESH)
+    private Mechanic mechanic;
+
 
 }
 
