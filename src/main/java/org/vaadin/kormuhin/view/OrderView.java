@@ -9,6 +9,8 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.renderers.DateRenderer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.vaadin.kormuhin.component.ClientConverter;
+import org.vaadin.kormuhin.component.MechanicConverter;
 import org.vaadin.kormuhin.component.OrderAutoEditor;
 import org.vaadin.kormuhin.model.Mechanic;
 import org.vaadin.kormuhin.model.OrderAuto;
@@ -16,7 +18,6 @@ import org.vaadin.kormuhin.service.MechanicService;
 import org.vaadin.kormuhin.service.OrderAutoService;
 
 import javax.annotation.PostConstruct;
-
 
 @SpringView(name = OrderView.ORDER_VIEW)
 public class OrderView extends VerticalLayout implements View {
@@ -29,29 +30,22 @@ public class OrderView extends VerticalLayout implements View {
     @Autowired
     MechanicService mechanicService;
 
-
     @PostConstruct
     public void initOrder() {
 
-
         HorizontalLayout hlayout = new HorizontalLayout();
         Grid grid = new Grid(orderAutoService.containerOrder());
-        grid.setColumns("description", "client", "mechanicName", "dateCreate", "dateCompletion", "cost", "statusOrder");
-
+        grid.setColumns("description", "client", "mechanic", "dateCreate", "dateCompletion", "cost", "statusOrder");
         grid.getColumn("description").setHeaderCaption("Описание");
-        grid.getColumn("client").setHeaderCaption("Клиент");
-
-        //   grid.getColumn("mechanicName")/*.setHeaderCaption("Механик")*/;
-        grid.getColumn("mechanicName").setHeaderCaption("Механик");
-
-
+        grid.getColumn("client").setHeaderCaption("Клиент").setConverter(new ClientConverter());
+        grid.getColumn("mechanic").setHeaderCaption("Механик").setConverter(new MechanicConverter());
         grid.getColumn("dateCreate").setHeaderCaption("Дата создания").setRenderer(new DateRenderer("%1$td-%1$tm-%1$tY/ %1$tH.%1$tM"));
         grid.getColumn("dateCompletion").setHeaderCaption("Дата окончания работ").setRenderer(new DateRenderer("%1$td-%1$tm-%1$tY/ %1$tH.%1$tM"));
         grid.getColumn("cost").setHeaderCaption("Стоимость");
         grid.getColumn("statusOrder").setHeaderCaption("Статус");
 
         grid.setHeight("500px");
-        grid.setWidth("1300px");
+        grid.setWidth("1500px");
         addComponents(grid);
         hlayout.setSpacing(true);
         addComponent(hlayout);
@@ -87,16 +81,12 @@ public class OrderView extends VerticalLayout implements View {
             }
         });
 
-
         hlayout.addComponents(addOrderAuto);
         hlayout.addComponents(editOrderAuto);
         hlayout.addComponents(delSelected);
-
     }
-
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-
     }
 }

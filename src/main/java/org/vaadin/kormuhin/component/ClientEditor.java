@@ -15,7 +15,6 @@ import org.vaadin.kormuhin.service.ClientService;
 @Component
 public class ClientEditor {
 
-    //  Mechanic mechanic=new Mechanic();
     @Autowired
     ClientService clientService;
 
@@ -36,7 +35,8 @@ public class ClientEditor {
 
         TextField lastNameText = new TextField("Фамилия");
         lastNameText.setIcon(FontAwesome.USER);
-        lastNameText.setInputPrompt(editClient.getLastName());
+
+        lastNameText.setValue(editClient.getLastName() == null ? "" : editClient.getLastName());
         lastNameText.setValidationVisible(true);
         StringLengthValidator sv = new StringLengthValidator("Введите Фамилию", 3, 15, true);
         lastNameText.addValidator(sv);
@@ -44,7 +44,7 @@ public class ClientEditor {
 
         TextField firstNameText = new TextField("Имя");
         firstNameText.setIcon(FontAwesome.USER);
-        firstNameText.setInputPrompt(editClient.getFirstName());
+        firstNameText.setValue(editClient.getFirstName() == null ? "" : editClient.getFirstName());
         firstNameText.setValidationVisible(true);
         StringLengthValidator slv = new StringLengthValidator("Введите Имя", 3, 10, true);
         firstNameText.addValidator(slv);
@@ -52,7 +52,7 @@ public class ClientEditor {
 
         TextField patronymicText = new TextField("Очество");
         patronymicText.setIcon(FontAwesome.USER);
-        patronymicText.setInputPrompt(editClient.getPatronymic());
+        patronymicText.setValue(editClient.getPatronymic() == null ? "" : editClient.getPatronymic());
         patronymicText.setValidationVisible(true);
         StringLengthValidator slev = new StringLengthValidator("Введите Очество", 0, 15, true);
         patronymicText.addValidator(slev);
@@ -63,6 +63,7 @@ public class ClientEditor {
 
         patronymicText.setInputPrompt(editClient.getPatronymic());
         phoneNumber.setValidationVisible(true);
+        phoneNumber.setValue(editClient.getNumberPhone() == null ? "" : String.valueOf(editClient.getNumberPhone()));
         IntegerRangeValidator iv = new IntegerRangeValidator("Введите номер телефона", 0, 1000000);
         phoneNumber.addValidator(iv);
         layout.addComponent(phoneNumber);

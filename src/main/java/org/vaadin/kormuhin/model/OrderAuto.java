@@ -20,11 +20,15 @@ public class OrderAuto {
     private Date dateCompletion;
     private Double cost;
     private String mechanicName;
-    private String client;
+    private String clientName;
     private String statusOrder;
 
     @ManyToOne(/*fetch=FetchType.LAZY*/ cascade = CascadeType.REFRESH)
     private Mechanic mechanic;
+
+    @ManyToOne(/*fetch=FetchType.LAZY*/ cascade = CascadeType.REFRESH)
+    private Client client;
+
 
 
 }

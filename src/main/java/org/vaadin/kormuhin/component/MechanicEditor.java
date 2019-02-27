@@ -2,7 +2,6 @@ package org.vaadin.kormuhin.component;
 
 
 import com.vaadin.data.Validator;
-import com.vaadin.data.util.converter.Converter;
 import com.vaadin.data.validator.DoubleRangeValidator;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.server.FontAwesome;
@@ -13,13 +12,10 @@ import org.springframework.stereotype.Component;
 import org.vaadin.kormuhin.model.Mechanic;
 import org.vaadin.kormuhin.service.MechanicService;
 
-import java.util.Locale;
-
 @UIScope
 @Component
 public class MechanicEditor {
 
-    //  Mechanic mechanic=new Mechanic();
     @Autowired
     MechanicService mechanicService;
 
@@ -40,7 +36,7 @@ public class MechanicEditor {
 
         TextField lastNameText = new TextField("Фамилия");
         lastNameText.setIcon(FontAwesome.USER);
-        lastNameText.setInputPrompt(editMechanic.getLastName());
+        lastNameText.setValue(editMechanic.getLastName() == null ? "" : editMechanic.getLastName());
         lastNameText.setValidationVisible(true);
         StringLengthValidator sv = new StringLengthValidator("Введите Фамилию", 3, 15, true);
         lastNameText.addValidator(sv);
@@ -48,7 +44,7 @@ public class MechanicEditor {
 
         TextField firstNameText = new TextField("Имя");
         firstNameText.setIcon(FontAwesome.USER);
-        firstNameText.setInputPrompt(editMechanic.getFirstName());
+        firstNameText.setValue(editMechanic.getFirstName() == null ? "" : editMechanic.getFirstName());
         firstNameText.setValidationVisible(true);
         StringLengthValidator slv = new StringLengthValidator("Введите Имя", 3, 10, true);
         firstNameText.addValidator(slv);
@@ -56,7 +52,7 @@ public class MechanicEditor {
 
         TextField patronymicText = new TextField("Очество");
         patronymicText.setIcon(FontAwesome.USER);
-        patronymicText.setInputPrompt(editMechanic.getPatronymic());
+        patronymicText.setValue(editMechanic.getPatronymic() == null ? "" : editMechanic.getPatronymic());
         patronymicText.setValidationVisible(true);
         StringLengthValidator slev = new StringLengthValidator("Введите Очество", 0, 15, true);
         patronymicText.addValidator(slev);
@@ -64,7 +60,7 @@ public class MechanicEditor {
 
         TextField hourlyPayDouble = new TextField("Почасовая оплата");
         hourlyPayDouble.setConverter(new DoubleConverter());
-
+        hourlyPayDouble.setValue(editMechanic.getHourlyPay() == 0.0 ? "" : String.valueOf(editMechanic.getHourlyPay()));
         hourlyPayDouble.setValidationVisible(true);
         DoubleRangeValidator dv = new DoubleRangeValidator("Введите величину почасовой оплаты", 10.0, 1000.0);
         hourlyPayDouble.addValidator(dv);

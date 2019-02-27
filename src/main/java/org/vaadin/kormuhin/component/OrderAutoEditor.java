@@ -2,25 +2,22 @@ package org.vaadin.kormuhin.component;
 
 
 import com.vaadin.data.Validator;
-import com.vaadin.data.util.converter.Converter;
 import com.vaadin.data.validator.DoubleRangeValidator;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.vaadin.kormuhin.model.Client;
 import org.vaadin.kormuhin.model.Mechanic;
 import org.vaadin.kormuhin.model.OrderAuto;
 import org.vaadin.kormuhin.service.ClientService;
 import org.vaadin.kormuhin.service.MechanicService;
 import org.vaadin.kormuhin.service.OrderAutoService;
 
-import java.util.Locale;
-
 
 @Component
 public class OrderAutoEditor {
-
 
     @Autowired
     OrderAutoService orderAutoService;
@@ -28,7 +25,6 @@ public class OrderAutoEditor {
     MechanicService mechanicService;
     @Autowired
     ClientService clientService;
-
 
     public void editForm(Grid grid, OrderAuto editOrder) {
 
@@ -116,30 +112,37 @@ public class OrderAutoEditor {
 
 
                 if (!failed) {
-                    editOrder.setDescription(descriptionText.getValue());
 
 
-                    editOrder.setDateCreate(createOrder.getValue());
-                    editOrder.setDateCompletion(completionOrder.getValue());
-
+                    Mechanic mechanic = (Mechanic) mechanicSelect.getValue();
 if (editOrder.getCost()==null){
                     long periodOfHours = (completionOrder.getValue().getTime() - createOrder.getValue().getTime()) / (60 * 60 * 1000);
-                    Mechanic mechanic = (Mechanic) mechanicSelect.getValue();
-                    System.out.println((Double) mechanic.getHourlyPay());
                     editOrder.setCost(mechanic.getHourlyPay() * periodOfHours);}
 else{editOrder.setCost(Double.parseDouble(costDouble.getValue()));}
 
 
-                    Mechanic mechanic = (Mechanic) mechanicSelect.getValue();
-                    int count = mechanic.getOrderAutos() + 1;
+                    if (editOrder.getMechanic() == null) {
+                        int count = mechanic.getOrderAutos() + 1;
                     mechanic.setOrderAutos(count);
-                    mechanicService.saveMechanic(mechanic);
+                        mechanicService.saveMechanic(mechanic);
+                    } else if (!editOrder.getMechanic().equals(mechanic)) {
+                        int count = editOrder.getMechanic().getOrderAutos() - 1;
+                        editOrder.getMechanic().setOrderAutos(count);
+                        mechanicService.saveMechanic(editOrder.getMechanic());
+
+                        int countA = mechanic.getOrderAutos() + 1;
+                        mechanic.setOrderAutos(countA);
+                        mechanicService.saveMechanic(mechanic);
+                    }
                     editOrder.setMechanic(mechanic);
-                    editOrder.setMechanicName(mechanic.getLastName());
+                    editOrder.setClient((Client) clientSelect.getValue());
+                    editOrder.setDescription(descriptionText.getValue());
+                    editOrder.setDateCreate(createOrder.getValue());
+                    editOrder.setDateCompletion(completionOrder.getValue());
                     editOrder.setStatusOrder(String.valueOf(statusSelect.getValue()));
                     orderAutoService.saveOrder(editOrder);
-                    grid.setContainerDataSource(orderAutoService.containerOrder());
 
+                    grid.setContainerDataSource(orderAutoService.containerOrder());
 
                     Notification.show("Сведения добавлены", Notification.Type.TRAY_NOTIFICATION);
                     sub.close();
