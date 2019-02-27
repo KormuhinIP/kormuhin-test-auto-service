@@ -63,39 +63,8 @@ public class MechanicEditor {
         layout.addComponent(patronymicText);
 
         TextField hourlyPayDouble = new TextField("Почасовая оплата");
-        hourlyPayDouble.setConverter(new Converter<String, Double>() {
-            @Override
-            public Double convertToModel(String value,
-                                         Class<? extends Double> targetType, Locale locale)
-                    throws com.vaadin.data.util.converter.Converter.ConversionException {
-                if (value == null)
-                    return null;
-                if (value.isEmpty()) {
-                    return 0.0;
-                }
-                return Double.parseDouble(value);
-            }
+        hourlyPayDouble.setConverter(new DoubleConverter());
 
-            @Override
-            public String convertToPresentation(Double value,
-                                                Class<? extends String> targetType, Locale locale)
-                    throws com.vaadin.data.util.converter.Converter.ConversionException {
-                if (value == null)
-                    return null;
-                return String.valueOf(value);
-            }
-
-            @Override
-            public Class<Double> getModelType() {
-                return Double.class;
-            }
-
-            @Override
-            public Class<String> getPresentationType() {
-                return String.class;
-            }
-
-        });
         hourlyPayDouble.setValidationVisible(true);
         DoubleRangeValidator dv = new DoubleRangeValidator("Введите величину почасовой оплаты", 10.0, 1000.0);
         hourlyPayDouble.addValidator(dv);

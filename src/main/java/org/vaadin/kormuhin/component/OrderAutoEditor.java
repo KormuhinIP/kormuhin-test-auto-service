@@ -37,112 +37,58 @@ public class OrderAutoEditor {
         sub.setWidth("600px");
         sub.setPositionX(600);
         sub.setPositionY(200);
-
-
         final FormLayout layout = new FormLayout();
         layout.setMargin(true);
-
         Label errLabel = new Label();
 
         TextField descriptionText = new TextField("Описание");
         descriptionText.setInputPrompt(editOrder.getDescription());
+        descriptionText.setValue (editOrder.getDescription()==null?"":editOrder.getDescription());
         descriptionText.setValidationVisible(true);
         StringLengthValidator sv = new StringLengthValidator("Опишите проблему", 5, 150, true);
         descriptionText.addValidator(sv);
         layout.addComponent(descriptionText);
 
-
-        final ComboBox clientSelect =
-                new ComboBox("Выберите клиента", clientService.containerClient());
+        final ComboBox clientSelect =new ComboBox("Выберите клиента", clientService.containerClient());
         clientSelect.setItemCaptionMode(AbstractSelect.ItemCaptionMode.PROPERTY);
         clientSelect.setItemCaptionPropertyId("lastName");
-        clientSelect.setInputPrompt(editOrder.getClient());
+        clientSelect.setValue(editOrder.getClient());
         clientSelect.setNullSelectionAllowed(false);
         layout.addComponent(clientSelect);
 
-
-        final ComboBox mechanicSelect =
-                new ComboBox("Выберите механика", mechanicService.containerMechanic());
+        final ComboBox mechanicSelect =new ComboBox("Выберите механика", mechanicService.containerMechanic());
         mechanicSelect.setItemCaptionMode(AbstractSelect.ItemCaptionMode.PROPERTY);
         mechanicSelect.setItemCaptionPropertyId("lastName");
-        //mechanicSelect.setInputPrompt(editOrder.getMechanic());
-        mechanicSelect.setNullSelectionAllowed(false);
-
+       mechanicSelect.setValue(editOrder.getMechanic());
+       mechanicSelect.setNullSelectionAllowed(false);
         layout.addComponent(mechanicSelect);
-
-
-
-
 
         DateField createOrder = new DateField("Дата создания заявки");
         createOrder.setResolution(Resolution.MINUTE);
+        createOrder.setValue(editOrder.getDateCreate());
         layout.addComponent(createOrder);
-
 
         DateField completionOrder = new DateField("Дата окончания работ");
         completionOrder.setResolution(Resolution.MINUTE);
+        completionOrder.setValue(editOrder.getDateCompletion());
         layout.addComponent(completionOrder);
 
-
         TextField costDouble = new TextField("Стоимость");
-        costDouble.setConverter(new Converter<String, Double>() {
-            @Override
-            public Double convertToModel(String value,
-                                         Class<? extends Double> targetType, Locale locale)
-                    throws com.vaadin.data.util.converter.Converter.ConversionException {
-                if (value == null)
-                    return null;
-                if (value.isEmpty()) {
-                    return 0.0;
-                }
-                return Double.parseDouble(value);
-            }
-
-            @Override
-            public String convertToPresentation(Double value,
-                                                Class<? extends String> targetType, Locale locale)
-                    throws com.vaadin.data.util.converter.Converter.ConversionException {
-                if (value == null)
-                    return null;
-                return String.valueOf(value);
-            }
-
-            @Override
-            public Class<Double> getModelType() {
-                return Double.class;
-            }
-
-            @Override
-            public Class<String> getPresentationType() {
-                return String.class;
-            }
-
-        });
-
+        costDouble.setConverter(new DoubleConverter());
         if (editOrder.getCost() != null) {
+            costDouble.setValue((String.valueOf(editOrder.getCost())));
             costDouble.setValidationVisible(true);
         DoubleRangeValidator dv = new DoubleRangeValidator("Введите стоимость", 100.0, 100000.0);
         costDouble.addValidator(dv);
             layout.addComponent(costDouble);
         }
 
-
-        final ComboBox statusSelect =
-                new ComboBox("Выберите статус работы");
-
-
+        final ComboBox statusSelect =new ComboBox("Выберите статус работы");
         String[] status = {"Запланирован", "Выполнен", "Принят клиентом"};
         statusSelect.addItems(status);
         statusSelect.setNullSelectionAllowed(false);
-        statusSelect.setValue("Запланирован");
-
-
-// Handle selection change
-
+        statusSelect.setValue(status[0]);
         layout.addComponent(statusSelect);
-
-
-
 
         HorizontalLayout hlayout = new HorizontalLayout();
 
@@ -176,24 +122,21 @@ public class OrderAutoEditor {
                     editOrder.setDateCreate(createOrder.getValue());
                     editOrder.setDateCompletion(completionOrder.getValue());
 
-
+if (editOrder.getCost()==null){
                     long periodOfHours = (completionOrder.getValue().getTime() - createOrder.getValue().getTime()) / (60 * 60 * 1000);
+                    Mechanic mechanic = (Mechanic) mechanicSelect.getValue();
+                    System.out.println((Double) mechanic.getHourlyPay());
+                    editOrder.setCost(mechanic.getHourlyPay() * periodOfHours);}
+else{editOrder.setCost(Double.parseDouble(costDouble.getValue()));}
 
 
                     Mechanic mechanic = (Mechanic) mechanicSelect.getValue();
-                    System.out.println((Double) mechanic.getHourlyPay());
-
-                    editOrder.setCost(mechanic.getHourlyPay() * periodOfHours);
-
-
                     int count = mechanic.getOrderAutos() + 1;
                     mechanic.setOrderAutos(count);
                     mechanicService.saveMechanic(mechanic);
                     editOrder.setMechanic(mechanic);
                     editOrder.setMechanicName(mechanic.getLastName());
                     editOrder.setStatusOrder(String.valueOf(statusSelect.getValue()));
-
-
                     orderAutoService.saveOrder(editOrder);
                     grid.setContainerDataSource(orderAutoService.containerOrder());
 
@@ -207,10 +150,7 @@ public class OrderAutoEditor {
         Button buttonClose = new Button("Отменить");
         buttonClose.addClickListener(new Button.ClickListener() {
             public void buttonClick(Button.ClickEvent event) {
-
-                sub.close();
-
-
+             sub.close();
             }
         });
 
@@ -218,11 +158,7 @@ public class OrderAutoEditor {
         hlayout.addComponent(buttonClose);
         layout.addComponent(hlayout);
         layout.addComponent(errLabel);
-
-
         sub.setContent(layout);
         UI.getCurrent().addWindow(sub);
-
-
     }
 }

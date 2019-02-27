@@ -10,7 +10,9 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.renderers.DateRenderer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.kormuhin.component.OrderAutoEditor;
+import org.vaadin.kormuhin.model.Mechanic;
 import org.vaadin.kormuhin.model.OrderAuto;
+import org.vaadin.kormuhin.service.MechanicService;
 import org.vaadin.kormuhin.service.OrderAutoService;
 
 import javax.annotation.PostConstruct;
@@ -24,6 +26,8 @@ public class OrderView extends VerticalLayout implements View {
     OrderAutoEditor orderAutoEditor;
     @Autowired
     OrderAutoService orderAutoService;
+    @Autowired
+    MechanicService mechanicService;
 
 
     @PostConstruct
@@ -63,6 +67,9 @@ public class OrderView extends VerticalLayout implements View {
             if (selection.getSelectedRow() != null) {
                 grid.getContainerDataSource().removeItem(selection.getSelectedRow());
                 orderAutoService.deleteOrder((OrderAuto) selection.getSelectedRow());
+                Mechanic mechanic=((OrderAuto) selection.getSelectedRow()).getMechanic();
+                mechanic.setOrderAutos(mechanic.getOrderAutos()-1);
+               mechanicService.saveMechanic(mechanic);
                 grid.getSelectionModel().reset();
                 e.getButton().setEnabled(true);
             }
