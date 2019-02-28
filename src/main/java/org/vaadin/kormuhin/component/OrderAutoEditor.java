@@ -8,9 +8,9 @@ import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.vaadin.kormuhin.model.Client;
-import org.vaadin.kormuhin.model.Mechanic;
-import org.vaadin.kormuhin.model.OrderAuto;
+import org.vaadin.kormuhin.domain.Client;
+import org.vaadin.kormuhin.domain.Mechanic;
+import org.vaadin.kormuhin.domain.OrderAuto;
 import org.vaadin.kormuhin.service.ClientService;
 import org.vaadin.kormuhin.service.MechanicService;
 import org.vaadin.kormuhin.service.OrderAutoService;
@@ -29,16 +29,15 @@ public class OrderAutoEditor {
     public void editForm(Grid grid, OrderAuto editOrder) {
 
         Window sub = new Window("Изменить/добавить");
-        sub.setHeight("600px");
-        sub.setWidth("600px");
+        sub.setHeight("500px");
+        sub.setWidth("550px");
         sub.setPositionX(600);
-        sub.setPositionY(200);
+        sub.setPositionY(150);
         final FormLayout layout = new FormLayout();
         layout.setMargin(true);
         Label errLabel = new Label();
 
         TextField descriptionText = new TextField("Описание");
-        descriptionText.setInputPrompt(editOrder.getDescription());
         descriptionText.setValue (editOrder.getDescription()==null?"":editOrder.getDescription());
         descriptionText.setValidationVisible(true);
         StringLengthValidator sv = new StringLengthValidator("Опишите проблему", 5, 150, true);
@@ -80,10 +79,11 @@ public class OrderAutoEditor {
         }
 
         final ComboBox statusSelect =new ComboBox("Выберите статус работы");
-        String[] status = {"Запланирован", "Выполнен", "Принят клиентом"};
-        statusSelect.addItems(status);
+        for (StatusEnum value : StatusEnum.values()) {
+            statusSelect.addItem(value.getTitle());
+        }
         statusSelect.setNullSelectionAllowed(false);
-        statusSelect.setValue(status[0]);
+        statusSelect.setValue(editOrder.getStatusOrder());
         layout.addComponent(statusSelect);
 
         HorizontalLayout hlayout = new HorizontalLayout();
@@ -156,7 +156,7 @@ else{editOrder.setCost(Double.parseDouble(costDouble.getValue()));}
              sub.close();
             }
         });
-
+        hlayout.setSpacing(true);
         hlayout.addComponent(button);
         hlayout.addComponent(buttonClose);
         layout.addComponent(hlayout);

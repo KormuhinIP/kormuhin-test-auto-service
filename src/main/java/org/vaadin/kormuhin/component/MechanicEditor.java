@@ -9,7 +9,7 @@ import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.vaadin.kormuhin.model.Mechanic;
+import org.vaadin.kormuhin.domain.Mechanic;
 import org.vaadin.kormuhin.service.MechanicService;
 
 @UIScope
@@ -129,7 +129,7 @@ public class MechanicEditor {
 
             }
         });
-
+        hlayout.setSpacing(true);
         hlayout.addComponent(button);
         hlayout.addComponent(buttonClose);
         layout.addComponent(hlayout);

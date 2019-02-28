@@ -2,7 +2,7 @@ package org.vaadin.kormuhin.component;
 
 import com.vaadin.data.util.converter.Converter;
 import org.springframework.stereotype.Component;
-import org.vaadin.kormuhin.model.Client;
+import org.vaadin.kormuhin.domain.Client;
 
 import java.util.Locale;
 

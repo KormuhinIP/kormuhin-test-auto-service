@@ -4,7 +4,7 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.ListSelect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.vaadin.kormuhin.model.Mechanic;
+import org.vaadin.kormuhin.domain.Mechanic;
 import org.vaadin.kormuhin.repository.MechanicRepository;
 
 import java.util.ArrayList;
@@ -44,6 +44,5 @@ public class MechanicService {
     public void saveMechanic(Mechanic mechanic) {
         mechanicRepository.save(mechanic);
     }
-
 
 }

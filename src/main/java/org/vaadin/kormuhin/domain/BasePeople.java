@@ -1,4 +1,4 @@
-package org.vaadin.kormuhin.model;
+package org.vaadin.kormuhin.domain;
 
 import lombok.Data;
 

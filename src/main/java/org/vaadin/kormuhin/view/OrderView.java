@@ -12,8 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.kormuhin.component.ClientConverter;
 import org.vaadin.kormuhin.component.MechanicConverter;
 import org.vaadin.kormuhin.component.OrderAutoEditor;
-import org.vaadin.kormuhin.model.Mechanic;
-import org.vaadin.kormuhin.model.OrderAuto;
+import org.vaadin.kormuhin.component.OrderFilter;
+import org.vaadin.kormuhin.domain.Mechanic;
+import org.vaadin.kormuhin.domain.OrderAuto;
 import org.vaadin.kormuhin.service.MechanicService;
 import org.vaadin.kormuhin.service.OrderAutoService;
 
@@ -29,10 +30,12 @@ public class OrderView extends VerticalLayout implements View {
     OrderAutoService orderAutoService;
     @Autowired
     MechanicService mechanicService;
+    @Autowired
+    OrderFilter orderFilter;
 
     @PostConstruct
     public void initOrder() {
-
+        addComponent(orderFilter.orderFilterLayout());
         HorizontalLayout hlayout = new HorizontalLayout();
         Grid grid = new Grid(orderAutoService.containerOrder());
         grid.setColumns("description", "client", "mechanic", "dateCreate", "dateCompletion", "cost", "statusOrder");

@@ -8,7 +8,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.vaadin.kormuhin.model.Client;
+import org.vaadin.kormuhin.domain.Client;
 import org.vaadin.kormuhin.service.ClientService;
 
 
@@ -130,7 +130,7 @@ public class ClientEditor {
 
             }
         });
-
+        hlayout.setSpacing(true);
         hlayout.addComponent(button);
         hlayout.addComponent(buttonClose);
         layout.addComponent(hlayout);

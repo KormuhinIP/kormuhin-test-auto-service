@@ -8,18 +8,10 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
-import org.dussan.vaadin.dcharts.DCharts;
-import org.dussan.vaadin.dcharts.base.elements.XYaxis;
-import org.dussan.vaadin.dcharts.data.DataSeries;
-import org.dussan.vaadin.dcharts.data.Ticks;
-import org.dussan.vaadin.dcharts.metadata.renderers.SeriesRenderers;
-import org.dussan.vaadin.dcharts.options.Axes;
-import org.dussan.vaadin.dcharts.options.Highlighter;
-import org.dussan.vaadin.dcharts.options.Options;
-import org.dussan.vaadin.dcharts.options.SeriesDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.kormuhin.component.MechanicEditor;
-import org.vaadin.kormuhin.model.Mechanic;
+import org.vaadin.kormuhin.component.MechanicStatistic;
+import org.vaadin.kormuhin.domain.Mechanic;
 import org.vaadin.kormuhin.service.MechanicService;
 
 import javax.annotation.PostConstruct;
@@ -32,6 +24,8 @@ public class MechanicView extends VerticalLayout implements View {
     MechanicEditor mechanicEditor;
     @Autowired
     MechanicService mechanicService;
+    @Autowired
+    MechanicStatistic mechanicStatistic;
 
     public static final String MECHANIC_VIEW = "mechanic";
 
@@ -79,29 +73,12 @@ public class MechanicView extends VerticalLayout implements View {
         });
 
         Button statisticOrder = new Button("Количество заказов", e -> {
-            SeriesDefaults seriesDefaults = new SeriesDefaults()
-                    .setRenderer(SeriesRenderers.BAR);
-            DataSeries dataSeries = new DataSeries().add(2, 6, 7);
-            Axes axes = new Axes()
-                    .addAxis(
-                            new XYaxis()
-                                    .setTicks(
-                                            new Ticks()
-                                                    .add("a", "d", "c")));
-            Highlighter highlighter = new Highlighter()
-                    .setShow(false);
-            Options options = new Options()
-                    .setSeriesDefaults(seriesDefaults)
-                    .setAxes(axes)
-                    .setHighlighter(highlighter);
-
-            DCharts charts = new DCharts()
-                    .setDataSeries(dataSeries)
-                    .show();
-            //  addComponent(charts);
+            if (selection.getSelectedRow() != null) {
+                mechanicStatistic.StatisticForm(grid, (Mechanic) selection.getSelectedRow());
                 e.getButton().setEnabled(true);
-
+            }
         });
+
 
         hlayout.addComponents(addMechanic);
         hlayout.addComponents(editMechanic);

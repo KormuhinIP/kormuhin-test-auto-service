@@ -1,4 +1,4 @@
-package org.vaadin.kormuhin.model;
+package org.vaadin.kormuhin.domain;
 
 import lombok.Data;
 import lombok.ToString;
@@ -19,7 +19,6 @@ public class OrderAuto {
     private Date dateCreate;
     private Date dateCompletion;
     private Double cost;
-    private String mechanicName;
     private String clientName;
     private String statusOrder;
 

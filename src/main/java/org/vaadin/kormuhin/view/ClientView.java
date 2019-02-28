@@ -9,7 +9,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.kormuhin.component.ClientEditor;
-import org.vaadin.kormuhin.model.Client;
+import org.vaadin.kormuhin.domain.Client;
 import org.vaadin.kormuhin.service.ClientService;
 
 import javax.annotation.PostConstruct;
