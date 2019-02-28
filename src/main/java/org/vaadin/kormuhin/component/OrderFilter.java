@@ -1,12 +1,18 @@
 package org.vaadin.kormuhin.component;
 
+import com.vaadin.data.Container;
+import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.data.util.filter.Compare;
 import com.vaadin.ui.*;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.vaadin.kormuhin.domain.OrderAuto;
 import org.vaadin.kormuhin.service.ClientService;
 import org.vaadin.kormuhin.service.OrderAutoService;
 
 @Component
+@Data
 public class OrderFilter {
     @Autowired
     ClientService clientService;
@@ -15,7 +21,12 @@ public class OrderFilter {
     OrderAutoService orderAutoService;
 
 
+    BeanItemContainer<OrderAuto> container;
+
+
     public VerticalLayout orderFilterLayout() {
+
+        container = orderAutoService.containerOrder();
 
         VerticalLayout verticalLayout = new VerticalLayout();
         HorizontalLayout horizontalLayout = new HorizontalLayout();
@@ -45,6 +56,14 @@ public class OrderFilter {
         Button buttonEnter = new Button("Применить");
         buttonEnter.addClickListener(new Button.ClickListener() {
             public void buttonClick(Button.ClickEvent event) {
+
+
+                Object itemId = statusSelect.getValue();
+                Container.Filter filter = new Compare.Equal("statusOrder", itemId);
+
+                container.removeAllContainerFilters();
+                container.addContainerFilter(filter);
+
 
             }
         });

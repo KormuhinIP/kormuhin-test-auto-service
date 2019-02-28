@@ -35,9 +35,11 @@ public class OrderView extends VerticalLayout implements View {
 
     @PostConstruct
     public void initOrder() {
-        addComponent(orderFilter.orderFilterLayout());
+
         HorizontalLayout hlayout = new HorizontalLayout();
-        Grid grid = new Grid(orderAutoService.containerOrder());
+        addComponent(orderFilter.orderFilterLayout());
+        Grid grid = new Grid(orderFilter.getContainer());
+
         grid.setColumns("description", "client", "mechanic", "dateCreate", "dateCompletion", "cost", "statusOrder");
         grid.getColumn("description").setHeaderCaption("Описание");
         grid.getColumn("client").setHeaderCaption("Клиент").setConverter(new ClientConverter());
@@ -49,6 +51,7 @@ public class OrderView extends VerticalLayout implements View {
 
         grid.setHeight("500px");
         grid.setWidth("1500px");
+
         addComponents(grid);
         hlayout.setSpacing(true);
         addComponent(hlayout);
