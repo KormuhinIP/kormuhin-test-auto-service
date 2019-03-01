@@ -38,34 +38,29 @@ public class MechanicEditor {
         lastNameText.setIcon(FontAwesome.USER);
         lastNameText.setValue(editMechanic.getLastName() == null ? "" : editMechanic.getLastName());
         lastNameText.setValidationVisible(true);
-        StringLengthValidator sv = new StringLengthValidator("Введите Фамилию", 3, 15, true);
-        lastNameText.addValidator(sv);
+        lastNameText.addValidator(new StringLengthValidator("Введите Фамилию", 3, 20, true));
         layout.addComponent(lastNameText);
 
         TextField firstNameText = new TextField("Имя");
         firstNameText.setIcon(FontAwesome.USER);
         firstNameText.setValue(editMechanic.getFirstName() == null ? "" : editMechanic.getFirstName());
         firstNameText.setValidationVisible(true);
-        StringLengthValidator slv = new StringLengthValidator("Введите Имя", 3, 10, true);
-        firstNameText.addValidator(slv);
+        firstNameText.addValidator(new StringLengthValidator("Введите Имя", 3, 15, true));
         layout.addComponent(firstNameText);
 
         TextField patronymicText = new TextField("Очество");
         patronymicText.setIcon(FontAwesome.USER);
         patronymicText.setValue(editMechanic.getPatronymic() == null ? "" : editMechanic.getPatronymic());
         patronymicText.setValidationVisible(true);
-        StringLengthValidator slev = new StringLengthValidator("Введите Очество", 0, 15, true);
-        patronymicText.addValidator(slev);
+        patronymicText.addValidator(new StringLengthValidator("Введите Очество", 0, 15, true));
         layout.addComponent(patronymicText);
 
         TextField hourlyPayDouble = new TextField("Почасовая оплата");
         hourlyPayDouble.setConverter(new DoubleConverter());
         hourlyPayDouble.setValue(editMechanic.getHourlyPay() == 0.0 ? "" : String.valueOf(editMechanic.getHourlyPay()));
         hourlyPayDouble.setValidationVisible(true);
-        DoubleRangeValidator dv = new DoubleRangeValidator("Введите величину почасовой оплаты", 10.0, 1000.0);
-        hourlyPayDouble.addValidator(dv);
+        hourlyPayDouble.addValidator(new DoubleRangeValidator("Введите величину почасовой оплаты", 10.0, 1000.0));
         layout.addComponent(hourlyPayDouble);
-
 
         HorizontalLayout hlayout = new HorizontalLayout();
 
@@ -78,7 +73,7 @@ public class MechanicEditor {
                 try {
                     lastNameText.validate();
                 } catch (Validator.InvalidValueException e) {
-                    errLabel.setValue(" - " + e.getMessage());
+                    errLabel.setValue(e.getMessage());
                     lastNameText.setValidationVisible(true);
                     failed = true;
                 }
@@ -109,7 +104,6 @@ public class MechanicEditor {
                     editMechanic.setFirstName(firstNameText.getValue());
                     editMechanic.setHourlyPay(Double.parseDouble(hourlyPayDouble.getValue()));
                     editMechanic.setPatronymic(patronymicText.getValue());
-                    editMechanic.setOrderAutos(0);
                     mechanicService.saveMechanic(editMechanic);
                     grid.setContainerDataSource(mechanicService.containerMechanic());
 
@@ -125,8 +119,6 @@ public class MechanicEditor {
             public void buttonClick(Button.ClickEvent event) {
 
                 sub.close();
-
-
             }
         });
         hlayout.setSpacing(true);
@@ -134,8 +126,6 @@ public class MechanicEditor {
         hlayout.addComponent(buttonClose);
         layout.addComponent(hlayout);
         layout.addComponent(errLabel);
-
-
         sub.setContent(layout);
         UI.getCurrent().addWindow(sub);
 

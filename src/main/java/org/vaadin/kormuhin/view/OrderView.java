@@ -13,7 +13,6 @@ import org.vaadin.kormuhin.component.ClientConverter;
 import org.vaadin.kormuhin.component.MechanicConverter;
 import org.vaadin.kormuhin.component.OrderAutoEditor;
 import org.vaadin.kormuhin.component.OrderFilter;
-import org.vaadin.kormuhin.domain.Mechanic;
 import org.vaadin.kormuhin.domain.OrderAuto;
 import org.vaadin.kormuhin.service.MechanicService;
 import org.vaadin.kormuhin.service.OrderAutoService;
@@ -70,9 +69,6 @@ public class OrderView extends VerticalLayout implements View {
             if (selection.getSelectedRow() != null) {
                 grid.getContainerDataSource().removeItem(selection.getSelectedRow());
                 orderAutoService.deleteOrder((OrderAuto) selection.getSelectedRow());
-                Mechanic mechanic=((OrderAuto) selection.getSelectedRow()).getMechanic();
-                mechanic.setOrderAutos(mechanic.getOrderAutos()-1);
-               mechanicService.saveMechanic(mechanic);
                 //grid.getSelectionModel().reset();
                 orderFilter.orderFilterLayout();
                 grid.setContainerDataSource(orderFilter.getContainer());

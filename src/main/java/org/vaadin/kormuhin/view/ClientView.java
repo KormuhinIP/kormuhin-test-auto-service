@@ -34,6 +34,8 @@ public class ClientView extends VerticalLayout implements View {
         grid.getColumn("firstName").setHeaderCaption("Имя");
         grid.getColumn("patronymic").setHeaderCaption("Очество");
         grid.getColumn("numberPhone").setHeaderCaption("Номер телефона");
+        grid.setHeight("500px");
+        grid.setWidth("700px");
 
         addComponents(grid);
         hlayout.setSpacing(true);

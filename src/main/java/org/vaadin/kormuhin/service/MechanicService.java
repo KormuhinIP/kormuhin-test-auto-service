@@ -7,8 +7,6 @@ import org.springframework.stereotype.Service;
 import org.vaadin.kormuhin.domain.Mechanic;
 import org.vaadin.kormuhin.repository.MechanicRepository;
 
-import java.util.ArrayList;
-
 @Service
 public class MechanicService {
     @Autowired
@@ -19,22 +17,6 @@ public class MechanicService {
         container.addItemSetChangeListener(new ListSelect("firstName"));
         return container;
 
-    }
-
-    public ArrayList<Integer> listOrder() {
-        ArrayList<Integer> list = new ArrayList<>();
-        for (Mechanic mechanic : mechanicRepository.findAll()) {
-            list.add(mechanic.getOrderAutos());
-        }
-        return list;
-    }
-
-    public ArrayList<String> listLastName() {
-        ArrayList<String> list = new ArrayList<>();
-        for (Mechanic mechanic : mechanicRepository.findAll()) {
-            list.add(mechanic.getLastName());
-        }
-        return list;
     }
 
     public void deleteMechanic(Mechanic mechanic) {

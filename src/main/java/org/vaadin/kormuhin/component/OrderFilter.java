@@ -3,6 +3,7 @@ package org.vaadin.kormuhin.component;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.filter.Compare;
+import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.ui.*;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +59,6 @@ public class OrderFilter {
         buttonEnter.addClickListener(new Button.ClickListener() {
             public void buttonClick(Button.ClickEvent event) {
 
-
                 Object status = statusSelect.getValue();
                 Container.Filter filterStatus = new Compare.Equal("statusOrder", status);
 
@@ -66,8 +66,7 @@ public class OrderFilter {
                 Container.Filter filterClient = new Compare.Equal("client", client);
 
                 String description = descriptionText.getValue();
-                Container.Filter filterDescription = new Compare.GreaterOrEqual("description", description);
-
+                SimpleStringFilter filterDescription = new SimpleStringFilter("description", description, true, false);
 
                 container.removeAllContainerFilters();
                 if (status != null) container.addContainerFilter(filterStatus);
@@ -75,7 +74,6 @@ public class OrderFilter {
                 if (description != null) container.addContainerFilter(filterDescription);
             }
         });
-
 
         horizontalLayout.addComponent(descriptionText);
         horizontalLayout.addComponent(clientSelect);

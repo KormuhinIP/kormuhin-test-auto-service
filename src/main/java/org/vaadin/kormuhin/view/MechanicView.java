@@ -34,7 +34,7 @@ public class MechanicView extends VerticalLayout implements View {
 
         HorizontalLayout hlayout = new HorizontalLayout();
         Grid grid = new Grid(mechanicService.containerMechanic());
-        grid.setColumns("lastName", "firstName", "patronymic", "hourlyPay", "orderAutos");
+        grid.setColumns("lastName", "firstName", "patronymic", "hourlyPay");
         grid.getColumn("lastName").setHeaderCaption("Фамилия");
         grid.getColumn("firstName").setHeaderCaption("Имя");
         grid.getColumn("patronymic").setHeaderCaption("Очество");
@@ -78,7 +78,6 @@ public class MechanicView extends VerticalLayout implements View {
                 e.getButton().setEnabled(true);
             }
         });
-
 
         hlayout.addComponents(addMechanic);
         hlayout.addComponents(editMechanic);

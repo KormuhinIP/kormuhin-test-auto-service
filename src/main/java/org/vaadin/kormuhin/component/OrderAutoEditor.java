@@ -3,6 +3,7 @@ package org.vaadin.kormuhin.component;
 
 import com.vaadin.data.Validator;
 import com.vaadin.data.validator.DoubleRangeValidator;
+import com.vaadin.data.validator.NullValidator;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.*;
@@ -14,6 +15,7 @@ import org.vaadin.kormuhin.domain.OrderAuto;
 import org.vaadin.kormuhin.service.ClientService;
 import org.vaadin.kormuhin.service.MechanicService;
 import org.vaadin.kormuhin.service.OrderAutoService;
+
 
 
 @Component
@@ -42,32 +44,35 @@ public class OrderAutoEditor {
         TextField descriptionText = new TextField("Описание");
         descriptionText.setValue (editOrder.getDescription()==null?"":editOrder.getDescription());
         descriptionText.setValidationVisible(true);
-        StringLengthValidator sv = new StringLengthValidator("Опишите проблему", 5, 150, true);
-        descriptionText.addValidator(sv);
+        descriptionText.addValidator(new StringLengthValidator("Опишите проблему", 5, 150, true));
         layout.addComponent(descriptionText);
 
         final ComboBox clientSelect =new ComboBox("Выберите клиента", clientService.containerClient());
         clientSelect.setItemCaptionMode(AbstractSelect.ItemCaptionMode.PROPERTY);
         clientSelect.setItemCaptionPropertyId("lastName");
         clientSelect.setValue(editOrder.getClient());
+        clientSelect.addValidator(new NullValidator("Выберите клиента", false));
         clientSelect.setNullSelectionAllowed(false);
         layout.addComponent(clientSelect);
 
         final ComboBox mechanicSelect =new ComboBox("Выберите механика", mechanicService.containerMechanic());
         mechanicSelect.setItemCaptionMode(AbstractSelect.ItemCaptionMode.PROPERTY);
         mechanicSelect.setItemCaptionPropertyId("lastName");
-       mechanicSelect.setValue(editOrder.getMechanic());
-       mechanicSelect.setNullSelectionAllowed(false);
+        mechanicSelect.setValue(editOrder.getMechanic());
+        mechanicSelect.addValidator(new NullValidator("Выберите механика", false));
+        mechanicSelect.setNullSelectionAllowed(false);
         layout.addComponent(mechanicSelect);
 
         DateField createOrder = new DateField("Дата создания заявки");
         createOrder.setResolution(Resolution.MINUTE);
+        createOrder.addValidator(new NullValidator("Укажите дату создания заявки", false));
         createOrder.setValue(editOrder.getDateCreate());
         layout.addComponent(createOrder);
 
         DateField completionOrder = new DateField("Дата окончания работ");
         completionOrder.setResolution(Resolution.MINUTE);
         completionOrder.setValue(editOrder.getDateCompletion());
+        completionOrder.addValidator(new NullValidator("Укажите дату окончания работ", false));
         layout.addComponent(completionOrder);
 
         TextField costDouble = new TextField("Стоимость");
@@ -75,8 +80,7 @@ public class OrderAutoEditor {
         if (editOrder.getCost() != null) {
             costDouble.setValue((String.valueOf(editOrder.getCost())));
             costDouble.setValidationVisible(true);
-        DoubleRangeValidator dv = new DoubleRangeValidator("Введите стоимость", 100.0, 100000.0);
-        costDouble.addValidator(dv);
+            costDouble.addValidator(new DoubleRangeValidator("Введите стоимость", 100.0, 9999999.0));
             layout.addComponent(costDouble);
         }
 
@@ -86,6 +90,7 @@ public class OrderAutoEditor {
         }
         statusSelect.setNullSelectionAllowed(false);
         statusSelect.setValue(editOrder.getStatusOrder());
+        statusSelect.addValidator(new NullValidator("Выберите статус", false));
         layout.addComponent(statusSelect);
 
         HorizontalLayout hlayout = new HorizontalLayout();
@@ -96,46 +101,77 @@ public class OrderAutoEditor {
 
                 Boolean failed = false;
                 errLabel.setValue("");
+                //validation
+
                 try {
                     descriptionText.validate();
                 } catch (Validator.InvalidValueException e) {
-                    errLabel.setValue(" - " + e.getMessage());
+                    errLabel.setValue(e.getMessage());
                     descriptionText.setValidationVisible(true);
-                    //   failed = true;
+                    failed = true;
+                }
+
+                try {
+                    clientSelect.validate();
+                } catch (Validator.InvalidValueException e) {
+                    errLabel.setValue(errLabel.getValue() + " - " + e.getMessage());
+                    clientSelect.setValidationVisible(true);
+                    failed = true;
+                }
+
+                try {
+                    mechanicSelect.validate();
+                } catch (Validator.InvalidValueException e) {
+                    errLabel.setValue(errLabel.getValue() + " - " + e.getMessage());
+                    mechanicSelect.setValidationVisible(true);
+                    failed = true;
+                }
+
+                try {
+                    createOrder.validate();
+                } catch (Validator.InvalidValueException e) {
+                    errLabel.setValue(errLabel.getValue() + " - " + e.getMessage());
+                    createOrder.setValidationVisible(true);
+                    failed = true;
+                }
+
+                try {
+                    completionOrder.validate();
+                } catch (Validator.InvalidValueException e) {
+                    errLabel.setValue(errLabel.getValue() + " - " + e.getMessage());
+                    completionOrder.setValidationVisible(true);
+                    failed = true;
                 }
 
                 try {
                     costDouble.validate();
-                } catch (Exception e) {
+                } catch (Validator.InvalidValueException e) {
                     errLabel.setValue(errLabel.getValue() + " - " + e.getMessage());
                     costDouble.setValidationVisible(true);
-                    // failed = true;
+                    failed = true;
                 }
 
+                try {
+                    statusSelect.validate();
+                } catch (Validator.InvalidValueException e) {
+                    errLabel.setValue(errLabel.getValue() + " - " + e.getMessage());
+                    statusSelect.setValidationVisible(true);
+                    failed = true;
+                }
+
+                if (completionOrder.getValue() != null && createOrder.getValue() != null && completionOrder.getValue().getTime() < createOrder.getValue().getTime()) {
+                    failed = true;
+                    errLabel.setValue(errLabel.getValue() + " - Дата создания позднее даты окончания, исправьте");
+                }
 
                 if (!failed) {
 
-
-                    Mechanic mechanic = (Mechanic) mechanicSelect.getValue();
+                    Mechanic mechanic = (Mechanic) mechanicSelect.getValue();                                    //set the price
 if (editOrder.getCost()==null){
                     long periodOfHours = (completionOrder.getValue().getTime() - createOrder.getValue().getTime()) / (60 * 60 * 1000);
                     editOrder.setCost(mechanic.getHourlyPay() * periodOfHours);}
 else{editOrder.setCost(Double.parseDouble(costDouble.getValue()));}
 
-
-                    if (editOrder.getMechanic() == null) {
-                        int count = mechanic.getOrderAutos() + 1;
-                    mechanic.setOrderAutos(count);
-                        mechanicService.saveMechanic(mechanic);
-                    } else if (!editOrder.getMechanic().equals(mechanic)) {
-                        int count = editOrder.getMechanic().getOrderAutos() - 1;
-                        editOrder.getMechanic().setOrderAutos(count);
-                        mechanicService.saveMechanic(editOrder.getMechanic());
-
-                        int countA = mechanic.getOrderAutos() + 1;
-                        mechanic.setOrderAutos(countA);
-                        mechanicService.saveMechanic(mechanic);
-                    }
                     editOrder.setMechanic(mechanic);
                     editOrder.setClient((Client) clientSelect.getValue());
                     editOrder.setDescription(descriptionText.getValue());
@@ -146,9 +182,6 @@ else{editOrder.setCost(Double.parseDouble(costDouble.getValue()));}
 
                     orderFilter.orderFilterLayout();                                  //update container in OrderFilter
                     grid.setContainerDataSource(orderFilter.getContainer());           //transfer the updated container to the grid (to filter when adding a new record to orders)
-
-
-
 
                     Notification.show("Сведения добавлены", Notification.Type.TRAY_NOTIFICATION);
                     sub.close();

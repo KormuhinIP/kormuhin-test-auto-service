@@ -13,7 +13,7 @@ import javax.persistence.Entity;
 @EqualsAndHashCode(callSuper = true)
 public class Client extends BasePeople {
 
-    private Integer numberPhone;
+    private String numberPhone;
 
 }
 
