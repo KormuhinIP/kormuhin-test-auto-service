@@ -25,6 +25,8 @@ public class OrderAutoEditor {
     MechanicService mechanicService;
     @Autowired
     ClientService clientService;
+    @Autowired
+    OrderFilter orderFilter;
 
     public void editForm(Grid grid, OrderAuto editOrder) {
 
@@ -142,7 +144,11 @@ else{editOrder.setCost(Double.parseDouble(costDouble.getValue()));}
                     editOrder.setStatusOrder(String.valueOf(statusSelect.getValue()));
                     orderAutoService.saveOrder(editOrder);
 
-                    grid.setContainerDataSource(orderAutoService.containerOrder());
+                    orderFilter.orderFilterLayout();                                  //update container in OrderFilter
+                    grid.setContainerDataSource(orderFilter.getContainer());           //transfer the updated container to the grid (to filter when adding a new record to orders)
+
+
+
 
                     Notification.show("Сведения добавлены", Notification.Type.TRAY_NOTIFICATION);
                     sub.close();

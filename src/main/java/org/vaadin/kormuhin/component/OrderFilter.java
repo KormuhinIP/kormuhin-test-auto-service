@@ -21,6 +21,7 @@ public class OrderFilter {
     OrderAutoService orderAutoService;
 
 
+
     BeanItemContainer<OrderAuto> container;
 
 
@@ -58,13 +59,20 @@ public class OrderFilter {
             public void buttonClick(Button.ClickEvent event) {
 
 
-                Object itemId = statusSelect.getValue();
-                Container.Filter filter = new Compare.Equal("statusOrder", itemId);
+                Object status = statusSelect.getValue();
+                Container.Filter filterStatus = new Compare.Equal("statusOrder", status);
+
+                Object client = clientSelect.getValue();
+                Container.Filter filterClient = new Compare.Equal("client", client);
+
+                String description = descriptionText.getValue();
+                Container.Filter filterDescription = new Compare.GreaterOrEqual("description", description);
+
 
                 container.removeAllContainerFilters();
-                container.addContainerFilter(filter);
-
-
+                if (status != null) container.addContainerFilter(filterStatus);
+                if (client != null) container.addContainerFilter(filterClient);
+                if (description != null) container.addContainerFilter(filterDescription);
             }
         });
 
@@ -77,10 +85,7 @@ public class OrderFilter {
         final Label label = new Label("");
         horizontalLayout.addComponent(label);
         horizontalLayout.setComponentAlignment(label, Alignment.BOTTOM_LEFT);
-
         verticalLayout.addComponent(horizontalLayout);
-
-
         return verticalLayout;
     }
 

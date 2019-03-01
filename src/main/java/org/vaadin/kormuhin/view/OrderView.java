@@ -38,7 +38,10 @@ public class OrderView extends VerticalLayout implements View {
 
         HorizontalLayout hlayout = new HorizontalLayout();
         addComponent(orderFilter.orderFilterLayout());
+
+
         Grid grid = new Grid(orderFilter.getContainer());
+
 
         grid.setColumns("description", "client", "mechanic", "dateCreate", "dateCompletion", "cost", "statusOrder");
         grid.getColumn("description").setHeaderCaption("Описание");
@@ -70,8 +73,11 @@ public class OrderView extends VerticalLayout implements View {
                 Mechanic mechanic=((OrderAuto) selection.getSelectedRow()).getMechanic();
                 mechanic.setOrderAutos(mechanic.getOrderAutos()-1);
                mechanicService.saveMechanic(mechanic);
-                grid.getSelectionModel().reset();
+                //grid.getSelectionModel().reset();
+                orderFilter.orderFilterLayout();
+                grid.setContainerDataSource(orderFilter.getContainer());
                 e.getButton().setEnabled(true);
+
             }
         });
 
