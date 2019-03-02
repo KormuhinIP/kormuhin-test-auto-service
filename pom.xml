@@ -30,29 +30,22 @@
             <id>vaadin-addon</id>
             <url>http://maven.vaadin.com/vaadin-addons</url>
         </repository>
-        <repository>
+        <!--<repository>
             <id>vaadin-prereleases</id>
             <url>http://maven.vaadin.com/vaadin-prereleases</url>
-        </repository>
+        </repository>-->
         <repository>
             <id>vaadin-addons</id>
             <url>http://maven.vaadin.com/vaadin-addons</url>
         </repository>
-        <!-- <repository>
-             <id>vaadin-addons</id>
-             <url>http://maven.vaadin.com/vaadin-addons</url>
-         </repository>-->
-        <!--       <repository>
-                   <id>vaadin-addons</id>
-                   <url>http://maven.vaadin.com/vaadin-addons</url>
-               </repository>-->
+
     </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>vaadin-prereleases</id>
-            <url>http://maven.vaadin.com/vaadin-prereleases</url>
-        </pluginRepository>
-    </pluginRepositories>
+    <!--  <pluginRepositories>
+          <pluginRepository>
+              <id>vaadin-prereleases</id>
+              <url>http://maven.vaadin.com/vaadin-prereleases</url>
+          </pluginRepository>
+      </pluginRepositories>-->
 
     <dependencies>
         <dependency>
@@ -99,11 +92,11 @@
             <version>2.4.0</version>
             <scope>runtime</scope>
         </dependency>
-        <dependency>
-            <groupId>com.zaxxer</groupId>
-            <artifactId>HikariCP</artifactId>
-            <version>3.1.0</version>
-        </dependency>
+        <!--   <dependency>
+               <groupId>com.zaxxer</groupId>
+               <artifactId>HikariCP</artifactId>
+               <version>3.1.0</version>
+           </dependency>-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

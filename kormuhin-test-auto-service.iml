@@ -79,6 +79,7 @@
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-commons:1.11.4.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-orm:4.2.7.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-tx:4.2.7.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.21" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:jcl-over-slf4j:1.7.21" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-aspects:4.2.7.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: com.vaadin:vaadin-spring-boot-starter:1.1.1" level="project" />
@@ -90,8 +91,6 @@
     <orderEntry type="library" name="Maven: org.vaadin.addons:selectrenderer:0.1.0" level="project" />
     <orderEntry type="library" name="Maven: org.vaadin.addons:dcharts-widget:1.4.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.hsqldb:hsqldb:2.4.0" level="project" />
-    <orderEntry type="library" name="Maven: com.zaxxer:HikariCP:3.1.0" level="project" />
-    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.21" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.projectlombok:lombok:1.16.18" level="project" />
     <orderEntry type="library" name="Maven: com.vaadin.addon:vaadin-context-menu:0.7.1" level="project" />
     <orderEntry type="library" name="Maven: com.vaadin:vaadin-server:7.7.7" level="project" />
