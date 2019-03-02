@@ -7,21 +7,21 @@ create table CLIENT
   NUMBER_PHONE varchar(255)
 );
 INSERT INTO CLIENT(FIRST_NAME, LAST_NAME, PATRONYMIC, NUMBER_PHONE)
-VALUES ('Шеянова', 'Екатерина', 'Андреевна', '+7-999-888-7777');
+VALUES ('Екатерина', 'Шеянова', 'Андреевна', '+7-999-888-7777');
 INSERT INTO CLIENT(FIRST_NAME, LAST_NAME, PATRONYMIC, NUMBER_PHONE)
-VALUES ('Головин', 'Семен', 'Аркадич', '+7-777-888-7777');
+VALUES ('Семен', 'Головин', 'Аркадич', '+7-777-888-7777');
 INSERT INTO CLIENT(FIRST_NAME, LAST_NAME, PATRONYMIC, NUMBER_PHONE)
-VALUES ('Антипов', 'Аркадий', 'Семенович', '+7-909-808-7077');
+VALUES ('Аркадий', 'Антипов', 'Семенович', '+7-909-808-7077');
 INSERT INTO CLIENT(FIRST_NAME, LAST_NAME, PATRONYMIC, NUMBER_PHONE)
-VALUES ('Голоша', 'Семен', 'Павлович', '+7-700-888-7777');
+VALUES ('Семен', 'Голоша', 'Павлович', '+7-700-888-7777');
 INSERT INTO CLIENT(FIRST_NAME, LAST_NAME, PATRONYMIC, NUMBER_PHONE)
-VALUES ('Звездина', 'Екатерина', 'Петровна', '+8-999-999-7777');
+VALUES ('Екатерина', 'Звездина', 'Петровна', '+8-999-999-7777');
 INSERT INTO CLIENT(FIRST_NAME, LAST_NAME, PATRONYMIC, NUMBER_PHONE)
-VALUES ('Гнязев', 'Андрей', 'Аркадич', '+7-111-222-7777');
+VALUES ('Андрей', 'Гнязев', 'Аркадич', '+7-111-222-7777');
 INSERT INTO CLIENT(FIRST_NAME, LAST_NAME, PATRONYMIC, NUMBER_PHONE)
-VALUES ('Половинкина', 'Мария', 'Андреевна', '+7-999-000-0000');
+VALUES ('Мария', 'Половинкина', 'Андреевна', '+7-999-000-0000');
 INSERT INTO CLIENT(FIRST_NAME, LAST_NAME, PATRONYMIC, NUMBER_PHONE)
-VALUES ('Тявкин', 'Семен', 'Семенович', '+7-777-999-7798');
+VALUES ('Семен', 'Тявкин', 'Семенович', '+7-777-999-7798');
 create table MECHANIC
 (
   ID         BIGINT identity primary key,
@@ -31,13 +31,13 @@ create table MECHANIC
   HOURLY_PAY double not null
 );
 INSERT INTO MECHANIC(first_name, last_name, patronymic, hourly_pay)
-VALUES ('Веревкин', 'Сергей', 'Дмитриевич', 100.0);
+VALUES ('Сергей', 'Веревкин', 'Дмитриевич', 100.0);
 INSERT INTO MECHANIC(first_name, last_name, patronymic, hourly_pay)
-VALUES ('Пупкин', 'Артем', 'Генадьевич', 150.0);
+VALUES ('Артем', 'Пупкин', 'Генадьевич', 150.0);
 INSERT INTO MECHANIC(first_name, last_name, patronymic, hourly_pay)
-VALUES ('Полов', 'Максим', '', 200.0);
+VALUES ('Максим', 'Полов', '', 200.0);
 INSERT INTO MECHANIC(first_name, last_name, patronymic, hourly_pay)
-VALUES ('Владимиров', 'Анатолий', 'Данилович', 300.0);
+VALUES ('Анатолий', 'Владимиров', 'Данилович', 300.0);
 create table ORDER_AUTO
 (
   ID              BIGINT identity primary key,
