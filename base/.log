@@ -1,0 +1,3 @@
+/*C15*/SET SCHEMA PUBLIC
+alter table order_auto add constraint FK_iewqduwthbdd9iv7fd5yl50ot foreign key (client_id) references client
+alter table order_auto add constraint FK_2yaib1ahfoa6rj991mk3a626b foreign key (mechanic_id) references mechanic
