@@ -22,7 +22,7 @@ public class ClientEditor {
     public void editForm(Grid grid, Client editClient) {
 
         Window sub = new Window("Изменить/добавить");
-        sub.setHeight("380px");
+        sub.setHeight("360px");
         sub.setWidth("400px");
         sub.setPositionX(150);
         sub.setPositionY(400);

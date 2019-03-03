@@ -23,7 +23,7 @@ public class MechanicEditor {
     public void editForm(Grid grid, Mechanic editMechanic) {
 
         Window sub = new Window("Изменить/добавить");
-        sub.setHeight("300px");
+        sub.setHeight("360px");
         sub.setWidth("400px");
         sub.setPositionX(150);
         sub.setPositionY(400);

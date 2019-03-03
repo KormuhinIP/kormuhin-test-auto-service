@@ -6,6 +6,5 @@ import org.vaadin.kormuhin.domain.Client;
 
 @Repository
 public interface ClientRepository extends JpaRepository<Client, Long> {
-   /* @Query("from Mechanic m where concat(m.firstName, ' ',m.lastName,' ',m.patronymic, '',m.hourlyPay) like concat('%', :name,'%') ")
-    List<Mechanic>findByName(@Param("name")String name);*/
+
 }

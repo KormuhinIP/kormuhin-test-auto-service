@@ -19,13 +19,12 @@ public class OrderAuto {
     private Date dateCreate;
     private Date dateCompletion;
     private Double cost;
-    private String clientName;
     private String statusOrder;
 
-    @ManyToOne(/*fetch=FetchType.LAZY*/ cascade = CascadeType.REFRESH)
+    @ManyToOne(cascade = CascadeType.REFRESH)
     private Mechanic mechanic;
 
-    @ManyToOne(/*fetch=FetchType.LAZY*/ cascade = CascadeType.REFRESH)
+    @ManyToOne(cascade = CascadeType.REFRESH)
     private Client client;
 
 

@@ -4,11 +4,9 @@ package org.vaadin.kormuhin.view;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Grid;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.vaadin.kormuhin.component.MechanicEditor;
 import org.vaadin.kormuhin.component.MechanicStatistic;
 import org.vaadin.kormuhin.domain.Mechanic;
@@ -39,6 +37,8 @@ public class MechanicView extends VerticalLayout implements View {
         grid.getColumn("firstName").setHeaderCaption("Имя");
         grid.getColumn("patronymic").setHeaderCaption("Очество");
         grid.getColumn("hourlyPay").setHeaderCaption("Почасовая оплата");
+        grid.setHeight("500px");
+        grid.setWidth("700px");
 
         addComponents(grid);
         hlayout.setSpacing(true);
@@ -53,10 +53,15 @@ public class MechanicView extends VerticalLayout implements View {
 
         Button delSelected = new Button("Удалить", e -> {
             if (selection.getSelectedRow() != null) {
-                grid.getContainerDataSource().removeItem(selection.getSelectedRow());
-                mechanicService.deleteMechanic((Mechanic) selection.getSelectedRow());
-                grid.getSelectionModel().reset();
-                e.getButton().setEnabled(true);
+                try {
+                    mechanicService.deleteMechanic((Mechanic) selection.getSelectedRow());
+                    grid.getContainerDataSource().removeItem(selection.getSelectedRow());
+                    grid.getSelectionModel().reset();
+                    e.getButton().setEnabled(true);
+                } catch (DataIntegrityViolationException error) {
+
+                    Notification.show("Нельзя удалить механиков, у которых есть заказы. Удалите в начале заказ.", Notification.Type.TRAY_NOTIFICATION);
+                }
             }
         });
 

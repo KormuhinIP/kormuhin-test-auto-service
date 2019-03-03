@@ -42,7 +42,6 @@ create table ORDER_AUTO
 (
   ID              BIGINT identity primary key,
   DESCRIPTION     varchar(255),
-  CLIENT_NAME     varchar(255),
   MECHANIC_ID     bigint,
   CLIENT_ID       bigint,
   DATE_CREATE     timestamp,
@@ -50,3 +49,25 @@ create table ORDER_AUTO
   COST            double,
   STATUS_ORDER    varchar(255)
 );
+
+insert into ORDER_AUTO(description, mechanic_id, client_id, date_create, date_completion, cost, status_order)
+values ('Замена фары', 2, 2, '2019-02-20 12:10:00', '2019-02-20 19:20:00', 1400.0, 'Принят клиентом');
+insert into ORDER_AUTO(description, mechanic_id, client_id, date_create, date_completion, cost, status_order)
+values ('Ремонт стекла', 2, 0, '2019-02-21 10:30:00', '2019-02-21 15:20:00', 1000.0, 'Принят клиентом');
+insert into ORDER_AUTO(description, mechanic_id, client_id, date_create, date_completion, cost, status_order)
+values ('Ремонт проводки', 1, 1, '2019-02-21 17:10:00', '2019-02-21 21:30:00', 2500.0, 'Принят клиентом');
+insert into ORDER_AUTO(description, mechanic_id, client_id, date_create, date_completion, cost, status_order)
+values ('Замена радиатора', 0, 0, '2019-02-22 12:10:00', '2019-02-22 17:20:00', 3000.0, 'Принят клиентом');
+insert into ORDER_AUTO(description, mechanic_id, client_id, date_create, date_completion, cost, status_order)
+values ('Балансировка колес', 3, 3, '2019-02-23 10:00:00', '2019-02-23 15:00:00', 1000.0, 'Выполнен');
+insert into ORDER_AUTO(description, mechanic_id, client_id, date_create, date_completion, cost, status_order)
+values ('Замена дворников', 0, 4, '2019-02-23 14:10:00', '2019-02-23 17:20:00', 500.0, 'Принят клиентом');
+insert into ORDER_AUTO(description, mechanic_id, client_id, date_create, date_completion, cost, status_order)
+values ('Покраска капота', 2, 5, '2019-02-24 10:40:00', '2019-02-24 19:20:00', 5400.0, 'Выполнен');
+insert into ORDER_AUTO(description, mechanic_id, client_id, date_create, date_completion, cost, status_order)
+values ('Замена свечей', 2, 6, '2019-02-24 12:20:00', '2019-02-24 15:20:00', 1000.0, 'Запланирован');
+insert into ORDER_AUTO(description, mechanic_id, client_id, date_create, date_completion, cost, status_order)
+values ('Ремонт руля', 2, 7, '2019-02-24 17:00:00', '2019-02-24 18:00:00', 600.0, 'Запланирован');
+insert into ORDER_AUTO(description, mechanic_id, client_id, date_create, date_completion, cost, status_order)
+values ('Замена масла', 2, 1, '2019-02-24 19:30:00', '2019-02-24 21:20:00', 500.0, 'Запланирован');
+
